@@ -31,8 +31,19 @@ public:
     virtual void render() override;
 
 private:
-    Obstacle m_obstacle1;
+
+    void checkPlayerPosition();
+
+    void setLevel(int t_level);
+
+    std::map<int, std::vector<sf::Vector2i>> m_levelData;
+    std::vector<Obstacle> m_obstacles;
+
+    int m_currentLevel{ 0 };
+
     Player m_player;
+
+
 };
 
 #endif

@@ -4,8 +4,9 @@ GameplayScene::GameplayScene()
 {
 	std::cout << "Creating " << typeid(*this).name() << std::endl;
 
-	auto boulderPositions =
-		LevelLoader::getInstance()->load("assets/level_data/levels.json");
+	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
+
+	setLevel(m_currentLevel);
 }
 
 GameplayScene::~GameplayScene()
@@ -39,6 +40,12 @@ void GameplayScene::processEvents()
 				break;
 			case sf::Keyboard::Down:
 				m_player.setDirectionY(1.0f);
+				break;
+			case sf::Keyboard::Num1:
+				setLevel(0);
+				break;
+			case sf::Keyboard::Num2:
+				setLevel(1);
 				break;
 			default:
 				break;
@@ -79,7 +86,12 @@ void GameplayScene::update(sf::Time t_dT)
 {
 	// Do game update here
 	m_player.move(t_dT);
-	m_player.collides(m_obstacle1);
+
+	for (auto& obstacle : m_obstacles) {
+		m_player.collides(obstacle);
+	}
+
+	checkPlayerPosition();
 }
 
 void GameplayScene::render()
@@ -88,7 +100,63 @@ void GameplayScene::render()
 
 	// Draw your stuff here
 	m_window->draw(m_player.getBody());
-	m_window->draw(m_obstacle1.getBody());
+
+	for (auto& obstacle : m_obstacles) {
+		m_window->draw(obstacle.getBody());
+	}
 
 	m_window->display();
+}
+
+void GameplayScene::checkPlayerPosition()
+{
+	// The levels are a 4x4 box; if we go out of bounds, we should go to the adjacent level
+	auto pos = m_player.getPosition();
+
+	if (pos.x < 0.f) {
+		// If we're not along the left bounds
+		if (m_currentLevel % 4 != 0) {
+			--m_currentLevel;
+			setLevel(m_currentLevel);
+			m_player.setPosition(pos + sf::Vector2f{RESOLUTION.x, 0.f});
+		} 
+	}
+	else if (pos.x > RESOLUTION.x) {
+		// If we're not along the right bounds
+		if ((m_currentLevel - 3) % 4) {
+			++m_currentLevel;
+			setLevel(m_currentLevel);
+			m_player.setPosition(pos - sf::Vector2f{RESOLUTION.x, 0.f});
+		}
+	}
+	else if (pos.y < 0) {
+		// If we're not in the top row
+		if (m_currentLevel > 3) {
+			m_currentLevel -= 4;
+			setLevel(m_currentLevel);
+			m_player.setPosition(pos + sf::Vector2f{0.f, RESOLUTION.y});
+		}
+	}
+	else if (pos.y > RESOLUTION.y) {
+		// If we're not in the bottom row
+		if (m_currentLevel < 12) {
+			m_currentLevel += 4;
+			setLevel(m_currentLevel);
+			m_player.setPosition(pos - sf::Vector2f{0.f, RESOLUTION.y});
+		}
+	}
+}
+
+void GameplayScene::setLevel(int t_level)
+{
+	m_currentLevel = t_level;
+
+	m_obstacles.clear();
+
+	for (sf::Vector2i& pos : m_levelData[m_currentLevel]) {
+		float xPos = (RESOLUTION.x / 16.f) * pos.x;
+		float yPos = (RESOLUTION.y / 16.f) * pos.y;
+
+		m_obstacles.push_back(Obstacle({ xPos, yPos }, 20.f));
+	}
 }
