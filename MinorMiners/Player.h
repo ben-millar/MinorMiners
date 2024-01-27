@@ -14,7 +14,7 @@
 class Player
 {
 public:
-	Player(sf::Vector2f t_position=sf::Vector2f(20.0f,20.0f));
+	Player(sf::Vector2f t_position=sf::Vector2f(200.0f,200.0f));
 
 	void move(sf::Time t_dT);
 	void update(sf::Time t_dT);
@@ -22,6 +22,8 @@ public:
 	void setDirectionY(float t_y);
 	void setDirection(sf::Vector2f t_position);
 	bool collides(Obstacle& t_obstacle);
+
+	void checkCollisions(std::vector<sf::FloatRect> t_colliders);
 
 	sf::Vector2f getPosition() { return m_position; }
 	void setPosition(sf::Vector2f t_position) { m_position = t_position; }

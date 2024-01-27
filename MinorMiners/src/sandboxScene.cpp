@@ -7,7 +7,7 @@ sandboxScene::sandboxScene() :
 
 	m_lightSources.push_back(&m_player.getLight());
 
-	m_fog.setAreaColor(sf::Color::Transparent);
+	m_fog.setAreaColor(sf::Color::Black);
 
 	Torch* t = new Torch();
 	t->getLight().setPosition({ 300,300 });

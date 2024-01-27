@@ -47,12 +47,6 @@ void GameplayScene::processEvents()
 			case sf::Keyboard::Down:
 				m_player.setDirectionY(1.0f);
 				break;
-			case sf::Keyboard::Num1:
-				setLevel(0);
-				break;
-			case sf::Keyboard::Num2:
-				setLevel(1);
-				break;
 			default:
 				break;
 			}
@@ -94,13 +88,19 @@ void GameplayScene::update(sf::Time t_dT)
 	m_kid.move(t_dT);
 	m_player.update(t_dT);
 
+	std::vector<sf::FloatRect> obsRects;
+
 	for (auto& obstacle : m_obstacles) {
 		m_player.collides(obstacle);
+		obsRects.push_back(obstacle.getBody().getGlobalBounds());
 	}
 
 	for (auto& wall : m_walls) {
 		m_player.collides(wall);
+		obsRects.push_back(wall.getBody().getGlobalBounds());
 	}
+
+	m_player.checkCollisions(obsRects);
 
 	checkPlayerPosition();
 

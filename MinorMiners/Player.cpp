@@ -17,6 +17,7 @@ Player::Player(sf::Vector2f t_position): m_position(t_position)
 
 	m_bloom.setRange(250.0f);
 	m_bloom.setPosition({ (float)m_sprite.getTextureRect().width, (float)m_sprite.getTextureRect().height});
+	m_bloom.setIntensity(0.5);
 }
 
 void Player::setDirection(sf::Vector2f t_direction)
@@ -48,6 +49,46 @@ void Player::loadTexture()
 	}
 	if (!m_walkingVerticalTexture.loadFromFile("assets/images/spritewalk.png")) {
 		std::cout << "ERROR Loading Walking Left Texture\n";
+	}
+}
+
+void Player::checkCollisions(std::vector<sf::FloatRect> t_colliders)
+{
+	for (auto& rect : t_colliders) {
+		if (!m_sprite.getGlobalBounds().intersects(rect)) continue;
+
+		auto playerBounds = m_sprite.getGlobalBounds();
+
+		// Calculate the overlap on each axis
+		float overlapLeft = playerBounds.left + playerBounds.width - rect.left;
+		float overlapRight = rect.left + rect.width - playerBounds.left;
+		float overlapTop = playerBounds.top + playerBounds.height - rect.top;
+		float overlapBottom = rect.top + rect.height - playerBounds.top;
+
+		// Find the smallest overlap. We assume this is the best axis to push apart on.
+		bool pushFromLeftOrRight = overlapLeft < overlapRight;
+		bool pushFromTopOrBottom = overlapTop < overlapBottom;
+
+		float minOverlapX = pushFromLeftOrRight ? overlapLeft : overlapRight;
+		float minOverlapY = pushFromTopOrBottom ? overlapTop : overlapBottom;
+
+		// Resolve collision along the smallest overlap axis
+		if (minOverlapX < minOverlapY) {
+			if (pushFromLeftOrRight) {
+				m_position.x -= minOverlapX;
+			}
+			else {
+				m_position.x += minOverlapX;
+			}
+		}
+		else {
+			if (pushFromTopOrBottom) {
+				m_position.y -= minOverlapY;
+			}
+			else {
+				m_position.y += minOverlapY;
+			}
+		}
 	}
 }
 
