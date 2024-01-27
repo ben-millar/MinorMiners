@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{6e8c5162-be55-4aa9-ae50-7828dddbd33d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{17e0168a-817c-43cb-a035-6a5f8d9f1c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\candle">
+      <UniqueIdentifier>{2f75a213-a3da-4750-80b1-5023bbb8d0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\candle\geometry">
+      <UniqueIdentifier>{14fcfcb8-d863-4d48-aa15-0ee487dd95c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\candle\graphics">
+      <UniqueIdentifier>{5e07ba08-592c-487d-904d-cf7f58b6d8d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\candle">
+      <UniqueIdentifier>{f44f13f1-392e-4439-a391-12691004937e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -26,7 +44,44 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="src\Toolbelt.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Torch.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sandboxScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Color.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Constants.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\DirectedLight.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\LightingArea.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\LightSource.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Line.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Polygon.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\RadialLight.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\VertexArray.cpp">
+      <Filter>Source Files\candle</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game.h">
       <Filter>Header Files</Filter>
@@ -51,6 +106,51 @@
 	</ClInclude>
     <ClInclude Include="LevelLoader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Toolbelt.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tool.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Torch.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sandboxScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\Candle.hpp">
+      <Filter>Header Files\candle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\Constants.hpp">
+      <Filter>Header Files\candle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\DirectedLight.hpp">
+      <Filter>Header Files\candle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\LightingArea.hpp">
+      <Filter>Header Files\candle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\LightSource.hpp">
+      <Filter>Header Files\candle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\RadialLight.hpp">
+      <Filter>Header Files\candle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\geometry\Line.hpp">
+      <Filter>Header Files\candle\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\geometry\Polygon.hpp">
+      <Filter>Header Files\candle\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\geometry\Vector2.hpp">
+      <Filter>Header Files\candle\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\graphics\Color.hpp">
+      <Filter>Header Files\candle\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Candle\graphics\VertexArray.hpp">
+      <Filter>Header Files\candle\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "GameplayScene.h"
+#include "sandboxScene.h"
 #include "Globals.h"
 #include "SceneManager.h"
 

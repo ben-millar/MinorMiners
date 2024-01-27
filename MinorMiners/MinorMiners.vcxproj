@@ -21,16 +21,43 @@
   <ItemGroup>
     <ClCompile Include="GameplayScene.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="src\Candle\Color.cpp" />
+    <ClCompile Include="src\Candle\Constants.cpp" />
+    <ClCompile Include="src\Candle\DirectedLight.cpp" />
+    <ClCompile Include="src\Candle\LightingArea.cpp" />
+    <ClCompile Include="src\Candle\LightSource.cpp" />
+    <ClCompile Include="src\Candle\Line.cpp" />
+    <ClCompile Include="src\Candle\Polygon.cpp" />
+    <ClCompile Include="src\Candle\RadialLight.cpp" />
+    <ClCompile Include="src\Candle\VertexArray.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sandboxScene.cpp" />
+    <ClCompile Include="src\Toolbelt.cpp" />
+    <ClCompile Include="src\Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameplayScene.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="IBaseScene.h" />
+    <ClInclude Include="include\Candle\Candle.hpp" />
+    <ClInclude Include="include\Candle\Constants.hpp" />
+    <ClInclude Include="include\Candle\DirectedLight.hpp" />
+    <ClInclude Include="include\Candle\geometry\Line.hpp" />
+    <ClInclude Include="include\Candle\geometry\Polygon.hpp" />
+    <ClInclude Include="include\Candle\geometry\Vector2.hpp" />
+    <ClInclude Include="include\Candle\graphics\Color.hpp" />
+    <ClInclude Include="include\Candle\graphics\VertexArray.hpp" />
+    <ClInclude Include="include\Candle\LightingArea.hpp" />
+    <ClInclude Include="include\Candle\LightSource.hpp" />
+    <ClInclude Include="include\Candle\RadialLight.hpp" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="include\sandboxScene.h" />
+    <ClInclude Include="include\Tool.h" />
+    <ClInclude Include="include\Toolbelt.h" />
+    <ClInclude Include="include\Torch.h" />
     <ClInclude Include="SceneManager.h" />
 	<ClInclude Include="Player.h" />
   </ItemGroup>

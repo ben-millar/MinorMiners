@@ -4,13 +4,14 @@ void Game::run()
 {
 	m_window = createWindow("Minor Miners");
 	m_window->setKeyRepeatEnabled(false);
-	m_window->setView({ { 540.f, 540.f }, { 1080.f, 1080.f } });
+	m_window->setView({ SCENE_CENTRE, RESOLUTION });
 
 	auto sceneManager = SceneManager::getInstance();
 	sceneManager->setWindow(m_window);
 
 	sceneManager->registerScene<GameplayScene>(SceneType::GAMEPLAY);
-	sceneManager->setScene(SceneType::GAMEPLAY);
+	sceneManager->registerScene<sandboxScene>(SceneType::SANDBOX);
+	sceneManager->setScene(SceneType::SANDBOX);
 
 	loadTextures();
 
