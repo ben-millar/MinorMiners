@@ -26,16 +26,16 @@ void GameplayScene::processEvents()
 				m_window->close();
 				break;
 			case sf::Keyboard::Left:
-				m_player.setDirection(sf::Vector2f(-1.0f,0.0f));
+				m_player.setDirectionX(-1.0f);
 				break;
 			case sf::Keyboard::Right:
-				m_player.setDirection(sf::Vector2f(1.0f, 0.0f));
+				m_player.setDirectionX(1.0f);
 				break;
 			case sf::Keyboard::Up:
-				m_player.setDirection(sf::Vector2f(0.0f, -1.0f));
+				m_player.setDirectionY(-1.0f);
 				break;
 			case sf::Keyboard::Down:
-				m_player.setDirection(sf::Vector2f(0.0f, 1.0f));
+				m_player.setDirectionY(1.0f);
 				break;
 			default:
 				break;
