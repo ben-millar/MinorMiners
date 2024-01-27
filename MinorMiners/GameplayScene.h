@@ -37,6 +37,7 @@ private:
     void setLevel(int t_level);
 
     std::map<int, std::vector<sf::Vector2i>> m_levelData;
+    std::vector<Obstacle> m_walls;
     std::vector<Obstacle> m_obstacles;
 
     int m_currentLevel{ 0 };

@@ -91,6 +91,10 @@ void GameplayScene::update(sf::Time t_dT)
 		m_player.collides(obstacle);
 	}
 
+	for (auto& wall : m_walls) {
+		m_player.collides(wall);
+	}
+
 	checkPlayerPosition();
 }
 
@@ -103,6 +107,10 @@ void GameplayScene::render()
 
 	for (auto& obstacle : m_obstacles) {
 		m_window->draw(obstacle.getBody());
+	}
+
+	for (auto& wall : m_walls) {
+		m_window->draw(wall.getBody());
 	}
 
 	m_window->display();
@@ -153,10 +161,27 @@ void GameplayScene::setLevel(int t_level)
 
 	m_obstacles.clear();
 
+	sf::Vector2f offset = RESOLUTION / 32.f;
+
 	for (sf::Vector2i& pos : m_levelData[m_currentLevel]) {
 		float xPos = (RESOLUTION.x / 16.f) * pos.x;
 		float yPos = (RESOLUTION.y / 16.f) * pos.y;
 
-		m_obstacles.push_back(Obstacle({ xPos, yPos }, 20.f));
+		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
+	}
+
+	m_walls.clear();
+
+	for (int i = 0; i < 16; ++i)
+	{
+		for (int j = 0; j < 16; ++j)
+		{
+			if (i == 0 || i == 15 || j == 0 || j == 15) {
+				float xPos = (RESOLUTION.x / 16.f) * i;
+				float yPos = (RESOLUTION.y / 16.f) * j;
+
+				m_walls.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
+			}
+		}
 	}
 }
