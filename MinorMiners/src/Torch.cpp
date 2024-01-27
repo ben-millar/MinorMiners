@@ -3,8 +3,8 @@
 
 Torch::Torch()
 {
-	m_light.setRange(350);
-	m_light.setPosition(200, 200);
+	m_light.setRange(150);
+	m_light.setPosition(450, 200);
 }
 
 void Torch::use()
@@ -13,6 +13,11 @@ void Torch::use()
 
 void Torch::drop()
 {
+}
+
+void Torch::update(sf::Vector2f t_parentPos)
+{
+	m_light.setPosition(t_parentPos);
 }
 
 Torch::operator sf::Drawable const& ()

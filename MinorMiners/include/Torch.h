@@ -15,9 +15,11 @@ public:
 
 	virtual void drop();
 
+	virtual void update(sf::Vector2f t_parentPos);
+
 	virtual candle::RadialLight& getLight() { return m_light; }
 
-	virtual operator sf::Drawable const&();
+	operator sf::Drawable const& ();
 
 private:
 	sf::Sprite m_torchSprite;

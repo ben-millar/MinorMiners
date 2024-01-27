@@ -5,8 +5,11 @@
 #include "SceneManager.h"
 #include "Torch.h"
 #include "Toolbelt.h"
+#include "Player.h"
 
 #include "Candle/LightingArea.hpp"
+
+#include <vector>
 
 class sandboxScene :
     public IBaseScene
@@ -33,13 +36,12 @@ public:
 
 private:
     Toolbelt m_playerBelt;
-    sf::RectangleShape m_rect;
-    sf::RectangleShape m_hiddenRect;
 
     candle::EdgeVector m_edges;
     candle::LightingArea m_fog;
     Torch* m_torch;
 
-    sf::Sprite m_sprite;
-    sf::Texture m_tex;
+    std::vector <candle::RadialLight*> m_lightSources;
+
+    Player m_player;
 };
