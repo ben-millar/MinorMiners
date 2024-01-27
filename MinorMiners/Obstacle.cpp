@@ -1,10 +1,10 @@
 #include "Obstacle.h"
 
-Obstacle::Obstacle(sf::Vector2f t_position, int t_radius):m_position(t_position), m_radius(t_radius)
+Obstacle::Obstacle(sf::Vector2f t_position) 
+	: m_position(t_position)
 {
-	m_radiusBigger = m_radius + 10;
-	m_body.setRadius(m_radius);
-	m_body.setOrigin(m_radius, m_radius);
+	m_body.setSize({ 67.5f, 67.5f });
+	m_body.setOrigin(33.75f, 33.75f);
 	m_body.setFillColor(sf::Color::Blue);
 	m_body.setPosition(m_position);
 }
@@ -12,13 +12,9 @@ Obstacle::Obstacle(sf::Vector2f t_position, int t_radius):m_position(t_position)
 void Obstacle::collisionStart()
 {
 	m_body.setFillColor(sf::Color::Red);
-	m_body.setRadius(m_radiusBigger);
-	m_body.setOrigin(m_radiusBigger, m_radiusBigger);
 }
 
 void Obstacle::collisionEnd()
 {
 	m_body.setFillColor(sf::Color::Blue);
-	m_body.setRadius(m_radius);
-	m_body.setOrigin(m_radius, m_radius);
 }

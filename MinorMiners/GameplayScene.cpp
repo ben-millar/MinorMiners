@@ -201,7 +201,7 @@ void GameplayScene::setLevel(int t_level)
 		float xPos = (RESOLUTION.x / 16.f) * pos.x;
 		float yPos = (RESOLUTION.y / 16.f) * pos.y;
 
-		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
+		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }));
 		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos}); // top left -> top right
 		m_edges.emplace_back(sf::Vector2f{xPos + offset.x * 2, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // top right -> bottom right
 		m_edges.emplace_back(sf::Vector2f{xPos, yPos + offset.y * 2}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // bottom left -> bottom right
@@ -218,7 +218,7 @@ void GameplayScene::setLevel(int t_level)
 				float xPos = (RESOLUTION.x / 16.f) * i;
 				float yPos = (RESOLUTION.y / 16.f) * j;
 
-				m_walls.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
+				m_walls.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }));
 			}
 		}
 	}
