@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "LevelLoader.h"
 #include "Player.h"
+#include "TextureHandler.h"
 
 #include "Candle/LightingArea.hpp"
 
@@ -42,8 +43,6 @@ private:
 
     void setLevel(int t_level);
 
-    void loadTextures();
-
     std::map<int, std::vector<sf::Vector2i>> m_levelData;
     std::vector<Obstacle> m_walls;
     std::vector<Obstacle> m_obstacles;
@@ -52,6 +51,7 @@ private:
     candle::LightingArea m_fog;
 
     std::vector <candle::RadialLight*> m_lightSources;
+    std::vector<Tool*> m_environmentTools;
 
     int m_currentLevel{ 0 };
 
@@ -61,6 +61,7 @@ private:
     sf::Sprite m_background; 
 
     sf::Texture m_backgroundTexture;
+    TextureHandler* m_textures;
 };
 
 #endif

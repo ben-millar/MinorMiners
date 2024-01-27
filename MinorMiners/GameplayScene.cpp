@@ -8,11 +8,13 @@ GameplayScene::GameplayScene() :
 	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
 
 	setLevel(m_currentLevel);
-	loadTextures();
 
 	m_fog.setAreaColor(sf::Color::Black);
 
 	m_lightSources.push_back(&m_player.getLight());
+	m_textures = TextureHandler::getInstance();
+
+	m_background.setTexture(*m_textures->getTexture("Background"));
 }
 
 GameplayScene::~GameplayScene()
@@ -223,13 +225,4 @@ void GameplayScene::setLevel(int t_level)
 			}
 		}
 	}
-}
-
-void GameplayScene::loadTextures()
-{
-	if (!m_backgroundTexture.loadFromFile("assets/images/bg.png")) {
-		std::cout << "grrr\n";
-	}
-
-	m_background.setTexture(m_backgroundTexture);
 }

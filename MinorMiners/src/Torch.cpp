@@ -20,8 +20,3 @@ void Torch::update(sf::Vector2f t_parentPos)
 {
 	m_light.setPosition(t_parentPos);
 }
-
-Torch::operator sf::Drawable const& ()
-{
-	return m_light;
-}

@@ -11,15 +11,14 @@ public:
 	Torch();
 	~Torch() = default;
 
-	virtual void use();
+	virtual void use()override;
 
-	virtual void drop();
+	virtual void drop()override;
 
-	virtual void update(sf::Vector2f t_parentPos);
+	virtual void update(sf::Vector2f t_parentPos)override;
 
 	virtual candle::RadialLight& getLight() { return m_light; }
 
-	operator sf::Drawable const& ();
 	operator candle::LightSource const& () {
 		return m_light;
 	}

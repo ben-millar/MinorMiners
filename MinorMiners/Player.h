@@ -10,6 +10,7 @@
 #include <Candle/RadialLight.hpp>
 #include "Toolbelt.h"
 #include "AnimatedSprite.h"
+#include "TextureHandler.h"
 
 class Player
 {
@@ -42,9 +43,6 @@ public:
 private:
 	void loadTexture();
 	sf::AnimatedSprite m_sprite;
-	sf::Texture m_walkingRightTexture;
-	sf::Texture m_walkingLeftTexture;
-	sf::Texture m_walkingVerticalTexture;
 	sf::Vector2f m_position;
 	sf::Vector2f m_direction;
 	int m_radius;
