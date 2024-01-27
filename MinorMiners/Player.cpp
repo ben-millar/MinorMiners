@@ -56,7 +56,7 @@ void Player::move(sf::Time t_dT)
 
 	m_position.x += m_direction.x * m_speed* t_dT.asMilliseconds();
 	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
-	if (m_position.x-m_radius < 0)
+	/*if (m_position.x-m_radius < 0)
 	{
 		m_position.x = 0+m_radius;
 	}
@@ -72,7 +72,7 @@ void Player::move(sf::Time t_dT)
 	else if (m_position.y + m_radius > RESOLUTION.y)
 	{
 		m_position.y = RESOLUTION.y - m_radius;
-	}
+	}*/
 	m_body.setPosition(m_position);
 	m_bloom.setPosition(m_position);
 }

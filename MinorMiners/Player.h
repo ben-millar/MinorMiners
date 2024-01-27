@@ -23,6 +23,9 @@ public:
 	void setDirection(sf::Vector2f t_position);
 	bool collides(Obstacle& t_obstacle);
 
+	sf::Vector2f getPosition() { return m_position; }
+	void setPosition(sf::Vector2f t_position) { m_position = t_position; }
+	
 	candle::RadialLight& getLight() { return m_bloom; }
 
 	operator sf::Drawable const& () { return m_body; }
