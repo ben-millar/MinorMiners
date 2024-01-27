@@ -4,6 +4,7 @@
 #include "IBaseScene.h"
 #include "Globals.h"
 #include "SceneManager.h"
+#include "LevelLoader.h"
 
 class GameplayScene :
     public IBaseScene

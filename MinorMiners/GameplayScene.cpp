@@ -3,6 +3,9 @@
 GameplayScene::GameplayScene()
 {
 	std::cout << "Creating " << typeid(*this).name() << std::endl;
+
+	auto boulderPositions =
+		LevelLoader::getInstance()->load("assets/level_data/levels.json");
 }
 
 GameplayScene::~GameplayScene()

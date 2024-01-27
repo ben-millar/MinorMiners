@@ -28,7 +28,12 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="IBaseScene.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="SceneManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\level_data\levels.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
