@@ -55,14 +55,11 @@
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
-<<<<<<< HEAD
     <ClInclude Include="Obstacle.h" />
-=======
     <ClInclude Include="include\sandboxScene.h" />
     <ClInclude Include="include\Tool.h" />
     <ClInclude Include="include\Toolbelt.h" />
     <ClInclude Include="include\Torch.h" />
->>>>>>> 9b62aefa7a31a15bf97d91384994c9af11c76c1c
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
