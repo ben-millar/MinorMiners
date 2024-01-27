@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "SceneManager.h"
 #include "LevelLoader.h"
+#include "Player.h"
 
 class GameplayScene :
     public IBaseScene
@@ -31,6 +32,7 @@ public:
 
 private:
 
+    Player m_player;
 };
 
 #endif

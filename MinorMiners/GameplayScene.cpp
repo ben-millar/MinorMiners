@@ -28,6 +28,38 @@ void GameplayScene::processEvents()
 			case sf::Keyboard::Escape:
 				m_window->close();
 				break;
+			case sf::Keyboard::Left:
+				m_player.setDirectionX(-1.0f);
+				break;
+			case sf::Keyboard::Right:
+				m_player.setDirectionX(1.0f);
+				break;
+			case sf::Keyboard::Up:
+				m_player.setDirectionY(-1.0f);
+				break;
+			case sf::Keyboard::Down:
+				m_player.setDirectionY(1.0f);
+				break;
+			default:
+				break;
+			}
+		}
+		if (e.type == sf::Event::KeyReleased)
+		{
+			switch (e.key.code)
+			{
+			case sf::Keyboard::Left:
+				m_player.setDirectionX(0.0f);
+				break;
+			case sf::Keyboard::Right:
+				m_player.setDirectionX(0.0f);
+				break;
+			case sf::Keyboard::Up:
+				m_player.setDirectionY(0.0f);
+				break;
+			case sf::Keyboard::Down:
+				m_player.setDirectionY(0.0f);
+				break;
 			default:
 				break;
 			}
@@ -46,6 +78,7 @@ void GameplayScene::processEvents()
 void GameplayScene::update(sf::Time t_dT)
 {
 	// Do game update here
+	m_player.move(t_dT);
 }
 
 void GameplayScene::render()
@@ -53,7 +86,7 @@ void GameplayScene::render()
 	m_window->clear(sf::Color::Transparent);
 
 	// Draw your stuff here
-
+	m_window->draw(m_player.getBody());
 
 	m_window->display();
 }
