@@ -4,6 +4,7 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 #include "Globals.h"
+#include "Obstacle.h"
 
 class Player
 {
@@ -15,6 +16,7 @@ public:
 	void setDirectionX(float t_x);
 	void setDirectionY(float t_y);
 	void setDirection(sf::Vector2f t_position);
+	bool collides(Obstacle& t_obstacle);
 
 private:
 	sf::CircleShape m_body;

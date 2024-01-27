@@ -31,7 +31,7 @@ public:
     virtual void render() override;
 
 private:
-
+    Obstacle m_obstacle1;
     Player m_player;
 };
 
