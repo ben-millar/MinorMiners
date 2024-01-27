@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <cmath>
 #include <SFML/Graphics.hpp>
 #include "Globals.h"
 
@@ -21,6 +22,8 @@ private:
 	sf::Vector2f m_direction;
 	int m_radius;
 	float m_speed;
+
+	void normaliseMovementVector();
 };
 
 

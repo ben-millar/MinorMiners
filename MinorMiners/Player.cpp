@@ -14,8 +14,29 @@ void Player::setDirection(sf::Vector2f t_direction)
 	m_direction = t_direction;
 }
 
+void Player::normaliseMovementVector()
+{
+	float magnitude = std::sqrt(
+		m_direction.x * m_direction.x +
+		m_direction.y * m_direction.y
+	);
+
+	if (magnitude == 0.0f)
+	{
+		m_direction = sf::Vector2f(0.0f, 0.0f);
+		return;
+	}
+
+	m_direction = sf::Vector2f(
+		m_direction.x / magnitude,
+		m_direction.y / magnitude
+	);
+}
+
 void Player::move(sf::Time t_dT)
 {
+	normaliseMovementVector();
+
 	m_position.x += m_direction.x * m_speed* t_dT.asMilliseconds();
 	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
 	if (m_position.x-m_radius < 0)
