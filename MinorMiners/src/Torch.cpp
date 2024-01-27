@@ -1,7 +1,8 @@
 #include "Torch.h"
 #include <iostream>
 
-Torch::Torch()
+Torch::Torch() : 
+	Tool(ToolType::TORCH)
 {
 	m_light.setRange(150);
 	m_light.setPosition(450, 200);
