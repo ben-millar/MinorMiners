@@ -1,12 +1,18 @@
 #include "GameplayScene.h"
 
-GameplayScene::GameplayScene()
+GameplayScene::GameplayScene() : 
+	m_fog(candle::LightingArea::Mode::FOG, { 0.0f, 0.0f }, RESOLUTION)
 {
 	std::cout << "Creating " << typeid(*this).name() << std::endl;
 
 	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
 
 	setLevel(m_currentLevel);
+	loadTextures();
+
+	m_fog.setAreaColor(sf::Color::Black);
+
+	m_lightSources.push_back(&m_player.getLight());
 }
 
 GameplayScene::~GameplayScene()
@@ -85,8 +91,8 @@ void GameplayScene::processEvents()
 void GameplayScene::update(sf::Time t_dT)
 {
 	// Do game update here
-	m_player.move(t_dT);
 	m_kid.move(t_dT);
+	m_player.update(t_dT);
 
 	for (auto& obstacle : m_obstacles) {
 		m_player.collides(obstacle);
@@ -98,17 +104,21 @@ void GameplayScene::update(sf::Time t_dT)
 
 	checkPlayerPosition();
 
+	updateFog();
 }
 
 void GameplayScene::render()
 {
-	m_window->clear(sf::Color::Transparent);
+	renderFog();
+
+	m_window->clear();
 
 	// Draw your stuff here
-	m_window->draw(m_player.getBody());
+	m_window->draw(m_player);
 	m_window->draw(m_kid.getBody());
 	//m_window->draw(m_kid.getBodyTarget());
 
+	m_window->draw(m_background);
 
 	for (auto& obstacle : m_obstacles) {
 		m_window->draw(obstacle.getBody());
@@ -117,9 +127,27 @@ void GameplayScene::render()
 	for (auto& wall : m_walls) {
 		m_window->draw(wall.getBody());
 	}
+	m_window->draw(m_player);
+
+	m_window->draw(m_fog);
 
 
 	m_window->display();
+}
+
+void GameplayScene::renderFog()
+{
+	m_fog.clear();
+	for (auto light : m_lightSources)
+		m_fog.draw(*light);
+
+	m_fog.display();
+}
+
+void GameplayScene::updateFog()
+{
+	for (auto light : m_lightSources)
+		light->castLight(m_edges.begin(), m_edges.end());
 }
 
 void GameplayScene::checkPlayerPosition()
@@ -174,6 +202,10 @@ void GameplayScene::setLevel(int t_level)
 		float yPos = (RESOLUTION.y / 16.f) * pos.y;
 
 		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos}); // top left -> top right
+		m_edges.emplace_back(sf::Vector2f{xPos + offset.x * 2, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // top right -> bottom right
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos + offset.y * 2}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // bottom left -> bottom right
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos, yPos + offset.y * 2}); // top left -> bottom left
 	}
 
 	m_walls.clear();
@@ -190,4 +222,13 @@ void GameplayScene::setLevel(int t_level)
 			}
 		}
 	}
+}
+
+void GameplayScene::loadTextures()
+{
+	if (!m_backgroundTexture.loadFromFile("assets/images/bg.png")) {
+		std::cout << "grrr\n";
+	}
+
+	m_background.setTexture(m_backgroundTexture);
 }

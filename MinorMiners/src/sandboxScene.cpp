@@ -3,13 +3,11 @@
 sandboxScene::sandboxScene() : 
 	m_fog(candle::LightingArea::Mode::FOG, { 0.0f, 0.0f } , RESOLUTION)
 {
-	std::cout << "Created Sandbox scene\n";
-
 	m_edges.emplace_back(sf::Vector2f{SCENE_CENTRE.x,0}, sf::Vector2f{SCENE_CENTRE.x,RESOLUTION.y});
 
 	m_lightSources.push_back(&m_player.getLight());
 
-	m_fog.setAreaColor(sf::Color::Black);
+	m_fog.setAreaColor(sf::Color::Transparent);
 
 	Torch* t = new Torch();
 	t->getLight().setPosition({ 300,300 });

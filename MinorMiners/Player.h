@@ -9,15 +9,15 @@
 
 #include <Candle/RadialLight.hpp>
 #include "Toolbelt.h"
+#include "AnimatedSprite.h"
 
 class Player
 {
 public:
-	Player(int t_radius=15, sf::Vector2f t_position=sf::Vector2f(20.0f,20.0f));
+	Player(sf::Vector2f t_position=sf::Vector2f(20.0f,20.0f));
 
 	void move(sf::Time t_dT);
 	void update(sf::Time t_dT);
-	sf::CircleShape getBody() { return m_body; }
 	void setDirectionX(float t_x);
 	void setDirectionY(float t_y);
 	void setDirection(sf::Vector2f t_position);
@@ -28,7 +28,7 @@ public:
 	
 	candle::RadialLight& getLight() { return m_bloom; }
 
-	operator sf::Drawable const& () { return m_body; }
+	operator sf::Drawable const& () { return m_sprite; }
 
 	void addTool(Tool* t_tool) { m_tools.addTool(t_tool); }
 
@@ -37,7 +37,11 @@ public:
 	Torch* getTorch() { return m_tools.getTorch(); }
 
 private:
-	sf::CircleShape m_body;
+	void loadTexture();
+	sf::AnimatedSprite m_sprite;
+	sf::Texture m_walkingRightTexture;
+	sf::Texture m_walkingLeftTexture;
+	sf::Texture m_walkingVerticalTexture;
 	sf::Vector2f m_position;
 	sf::Vector2f m_direction;
 	int m_radius;

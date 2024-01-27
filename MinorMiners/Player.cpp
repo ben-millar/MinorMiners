@@ -1,15 +1,22 @@
 #include "Player.h"
 
-Player::Player(int t_radius, sf::Vector2f t_position): m_radius(t_radius), m_position(t_position)
+Player::Player(sf::Vector2f t_position): m_position(t_position)
 {
 	m_speed = 0.5f;
 	m_direction = sf::Vector2f(0.0f, 0.0f);
-	m_body.setRadius(m_radius);
-	m_body.setOrigin(m_radius, m_radius);
-	m_body.setPosition(m_position);
 
-	m_bloom.setRange(50.0f);
-	m_bloom.setPosition({ (float)m_radius, (float)m_radius });
+	loadTexture();
+
+	m_sprite.setFramteDelay(0.25);
+	m_sprite.setScale(0.075f, 0.075f);
+	m_sprite.initTexture(State::Walking_left, &m_walkingLeftTexture, 4);
+	m_sprite.initTexture(State::Walking_right, &m_walkingRightTexture, 4);
+	m_sprite.initTexture(State::Walking_down, &m_walkingVerticalTexture, 3);
+	m_sprite.initTexture(State::Standing, &m_walkingVerticalTexture, 1);
+	m_sprite.setState(State::Standing);
+
+	m_bloom.setRange(250.0f);
+	m_bloom.setPosition({ (float)m_sprite.getTextureRect().width, (float)m_sprite.getTextureRect().height});
 }
 
 void Player::setDirection(sf::Vector2f t_direction)
@@ -19,7 +26,7 @@ void Player::setDirection(sf::Vector2f t_direction)
 
 bool Player::collides(Obstacle& t_obstacle)
 {
-	if (m_body.getGlobalBounds().intersects(t_obstacle.getBody().getGlobalBounds()))
+	if (m_sprite.getGlobalBounds().intersects(t_obstacle.getBody().getGlobalBounds()))
 	{
 		t_obstacle.collisionStart();
 		return true;
@@ -28,6 +35,19 @@ bool Player::collides(Obstacle& t_obstacle)
 	{
 		t_obstacle.collisionEnd();
 		return false;
+	}
+}
+
+void Player::loadTexture()
+{
+	if (!m_walkingRightTexture.loadFromFile("assets/images/moveright.png")) {
+		std::cout << "ERROR Loading Walking Right Texture\n";
+	}
+	if (!m_walkingLeftTexture.loadFromFile("assets/images/moveleft.png")) {
+		std::cout << "ERROR Loading Walking Left Texture\n";
+	}
+	if (!m_walkingVerticalTexture.loadFromFile("assets/images/spritewalk.png")) {
+		std::cout << "ERROR Loading Walking Left Texture\n";
 	}
 }
 
@@ -53,6 +73,21 @@ void Player::normaliseMovementVector()
 void Player::move(sf::Time t_dT)
 {
 	normaliseMovementVector();
+	if (m_direction.y != 0)
+		m_sprite.setState(State::Walking_down);
+
+	if (m_direction.x > 0) 
+		m_sprite.setState(State::Walking_right);
+	else if (m_direction.x < 0)
+		m_sprite.setState(State::Walking_left);
+
+	float magnitude = std::sqrt(
+		m_direction.x * m_direction.x +
+		m_direction.y * m_direction.y
+	);
+
+	if (magnitude == 0)
+		m_sprite.setState(State::Standing);
 
 	m_position.x += m_direction.x * m_speed* t_dT.asMilliseconds();
 	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
@@ -73,12 +108,13 @@ void Player::move(sf::Time t_dT)
 	{
 		m_position.y = RESOLUTION.y - m_radius;
 	}*/
-	m_body.setPosition(m_position);
+	m_sprite.setPosition(m_position);
 	m_bloom.setPosition(m_position);
 }
 
 void Player::update(sf::Time t_dT)
 {
+	m_sprite.update(t_dT);
 	m_tools.update(m_position);
 	move(t_dT);
 }

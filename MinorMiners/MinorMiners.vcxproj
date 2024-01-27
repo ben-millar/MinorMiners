@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="GameplayScene.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -40,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="GameplayScene.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="IBaseScene.h" />
