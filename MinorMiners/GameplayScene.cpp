@@ -103,6 +103,7 @@ void GameplayScene::update(sf::Time t_dT)
 	m_player.checkCollisions(obsRects);
 
 	checkPlayerPosition();
+	m_player.checkInBounds();
 
 	updateFog();
 }

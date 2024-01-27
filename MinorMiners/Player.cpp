@@ -92,6 +92,32 @@ void Player::checkCollisions(std::vector<sf::FloatRect> t_colliders)
 	}
 }
 
+void Player::checkInBounds()
+{
+	const float TOP_BOUND{ 100 };
+	const float BOTTOM_BOUND{ 880 };
+	const float LEFT_BOUND{ 100 };
+	const float RIGHT_BOUND{ 980 };
+
+	if (m_position.x-m_radius < LEFT_BOUND)
+	{
+		m_position.x = LEFT_BOUND+m_radius;
+	}
+	else if (m_position.x + m_radius > RIGHT_BOUND)
+	{
+		m_position.x = RIGHT_BOUND -m_radius;
+	}
+
+	if (m_position.y - m_radius < TOP_BOUND)
+	{
+		m_position.y = TOP_BOUND+m_radius;
+	}
+	else if (m_position.y + m_radius > BOTTOM_BOUND)
+	{
+		m_position.y = BOTTOM_BOUND - m_radius;
+	}
+}
+
 void Player::normaliseMovementVector()
 {
 	float magnitude = std::sqrt(
@@ -132,23 +158,7 @@ void Player::move(sf::Time t_dT)
 
 	m_position.x += m_direction.x * m_speed* t_dT.asMilliseconds();
 	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
-	/*if (m_position.x-m_radius < 0)
-	{
-		m_position.x = 0+m_radius;
-	}
-	else if (m_position.x + m_radius > RESOLUTION.x)
-	{
-		m_position.x = RESOLUTION.x -m_radius;
-	}
-
-	if (m_position.y - m_radius < 0)
-	{
-		m_position.y = 0+m_radius;
-	}
-	else if (m_position.y + m_radius > RESOLUTION.y)
-	{
-		m_position.y = RESOLUTION.y - m_radius;
-	}*/
+	
 	m_sprite.setPosition(m_position);
 	m_bloom.setPosition(m_position);
 }

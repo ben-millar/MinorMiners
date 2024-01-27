@@ -24,6 +24,7 @@ public:
 	bool collides(Obstacle& t_obstacle);
 
 	void checkCollisions(std::vector<sf::FloatRect> t_colliders);
+	void checkInBounds();
 
 	sf::Vector2f getPosition() { return m_position; }
 	void setPosition(sf::Vector2f t_position) { m_position = t_position; }
