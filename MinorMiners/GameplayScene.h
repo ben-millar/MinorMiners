@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "LevelLoader.h"
 #include "Player.h"
+#include "AudioHandler.h"
 
 class GameplayScene :
     public IBaseScene
@@ -36,6 +37,8 @@ private:
 
     void setLevel(int t_level);
 
+    void setAudio();
+
     std::map<int, std::vector<sf::Vector2i>> m_levelData;
     std::vector<Obstacle> m_walls;
     std::vector<Obstacle> m_obstacles;
@@ -44,6 +47,7 @@ private:
 
     Player m_player;
     Enemy m_kid;
+    std::vector<AudioHandler> m_audio;
 };
 
 #endif

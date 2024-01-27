@@ -191,3 +191,14 @@ void GameplayScene::setLevel(int t_level)
 		}
 	}
 }
+//tbc
+void GameplayScene::setAudio()
+{
+	int const NUM_AUDIO = 11;
+	std::string tracks[] = { "again_seriously","are_you_even_listening","dont_leave_me_here","tbc" };
+	for (int i = 0; i < NUM_AUDIO; i++)
+	{
+		AudioHandler track;
+		//track.loadAudio()
+	}
+}

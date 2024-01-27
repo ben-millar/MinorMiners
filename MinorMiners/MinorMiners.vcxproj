@@ -39,6 +39,7 @@
     <ClCompile Include="src\Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioHandler.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameplayScene.h" />
     <ClInclude Include="Globals.h" />
