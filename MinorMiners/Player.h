@@ -4,6 +4,7 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 #include "Globals.h"
+#include "Obstacle.h"
 
 #include <Candle/RadialLight.hpp>
 #include "Toolbelt.h"
@@ -19,6 +20,7 @@ public:
 	void setDirectionX(float t_x);
 	void setDirectionY(float t_y);
 	void setDirection(sf::Vector2f t_position);
+	bool collides(Obstacle& t_obstacle);
 
 	candle::RadialLight& getLight() { return m_bloom; }
 

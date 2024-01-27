@@ -17,6 +17,20 @@ void Player::setDirection(sf::Vector2f t_direction)
 	m_direction = t_direction;
 }
 
+bool Player::collides(Obstacle& t_obstacle)
+{
+	if (m_body.getGlobalBounds().intersects(t_obstacle.getBody().getGlobalBounds()))
+	{
+		t_obstacle.collisionStart();
+		return true;
+	}
+	else
+	{
+		t_obstacle.collisionEnd();
+		return false;
+	}
+}
+
 void Player::normaliseMovementVector()
 {
 	float magnitude = std::sqrt(

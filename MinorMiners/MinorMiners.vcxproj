@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameplayScene.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="src\Candle\Color.cpp" />
     <ClCompile Include="src\Candle\Constants.cpp" />
@@ -58,8 +59,9 @@
     <ClInclude Include="include\Tool.h" />
     <ClInclude Include="include\Toolbelt.h" />
     <ClInclude Include="include\Torch.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="SceneManager.h" />
-	<ClInclude Include="Player.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\level_data\levels.json" />
