@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Globals.h"
 #include "Obstacle.h"
+#include "Enemy.h"
 
 #include <Candle/RadialLight.hpp>
 #include "Toolbelt.h"

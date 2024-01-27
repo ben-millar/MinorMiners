@@ -80,6 +80,7 @@ void GameplayScene::update(sf::Time t_dT)
 	// Do game update here
 	m_player.move(t_dT);
 	m_player.collides(m_obstacle1);
+	m_kid.move(t_dT);
 }
 
 void GameplayScene::render()
@@ -89,6 +90,9 @@ void GameplayScene::render()
 	// Draw your stuff here
 	m_window->draw(m_player.getBody());
 	m_window->draw(m_obstacle1.getBody());
+	m_window->draw(m_kid.getBody());
+	m_window->draw(m_kid.getBodyTarget());
+
 
 	m_window->display();
 }

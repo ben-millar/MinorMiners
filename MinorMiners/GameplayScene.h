@@ -33,6 +33,7 @@ public:
 private:
     Obstacle m_obstacle1;
     Player m_player;
+    Enemy m_kid;
 };
 
 #endif

@@ -11,7 +11,7 @@ void Game::run()
 
 	sceneManager->registerScene<GameplayScene>(SceneType::GAMEPLAY);
 	sceneManager->registerScene<sandboxScene>(SceneType::SANDBOX);
-	sceneManager->setScene(SceneType::SANDBOX);
+	sceneManager->setScene(SceneType::GAMEPLAY);
 
 	loadTextures();
 
