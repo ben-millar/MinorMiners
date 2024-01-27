@@ -77,6 +77,12 @@ void Player::move(sf::Time t_dT)
 	m_bloom.setPosition(m_position);
 }
 
+void Player::update(sf::Time t_dT)
+{
+	m_tools.update(m_position);
+	move(t_dT);
+}
+
 void Player::setDirectionX(float t_x)
 {
 	m_direction.x = t_x;

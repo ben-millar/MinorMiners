@@ -60,6 +60,7 @@
     <ClInclude Include="include\Tool.h" />
     <ClInclude Include="include\Toolbelt.h" />
     <ClInclude Include="include\Torch.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

@@ -20,6 +20,9 @@ public:
 	virtual candle::RadialLight& getLight() { return m_light; }
 
 	operator sf::Drawable const& ();
+	operator candle::LightSource const& () {
+		return m_light;
+	}
 
 private:
 	sf::Sprite m_torchSprite;

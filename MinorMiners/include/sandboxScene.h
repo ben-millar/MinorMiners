@@ -35,13 +35,16 @@ public:
     virtual void render() override;
 
 private:
-    Toolbelt m_playerBelt;
+    void renderFog();
+
+    void updateFog();
 
     candle::EdgeVector m_edges;
     candle::LightingArea m_fog;
-    Torch* m_torch;
 
     std::vector <candle::RadialLight*> m_lightSources;
+
+    std::vector<Tool*> m_environmentTools;
 
     Player m_player;
 };
