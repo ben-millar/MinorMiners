@@ -7,6 +7,9 @@ Player::Player(int t_radius, sf::Vector2f t_position): m_radius(t_radius), m_pos
 	m_body.setRadius(m_radius);
 	m_body.setOrigin(m_radius, m_radius);
 	m_body.setPosition(m_position);
+
+	m_bloom.setRange(50.0f);
+	m_bloom.setPosition({ (float)m_radius, (float)m_radius });
 }
 
 void Player::setDirection(sf::Vector2f t_direction)
@@ -71,6 +74,7 @@ void Player::move(sf::Time t_dT)
 		m_position.y = RESOLUTION.y - m_radius;
 	}
 	m_body.setPosition(m_position);
+	m_bloom.setPosition(m_position);
 }
 
 void Player::setDirectionX(float t_x)

@@ -6,6 +6,8 @@
 #include "Globals.h"
 #include "Obstacle.h"
 
+#include <Candle/RadialLight.hpp>
+
 class Player
 {
 public:
@@ -18,12 +20,18 @@ public:
 	void setDirection(sf::Vector2f t_position);
 	bool collides(Obstacle& t_obstacle);
 
+	candle::RadialLight& getLight() { return m_bloom; }
+
+	operator sf::Drawable const& () { return m_body; }
+
 private:
 	sf::CircleShape m_body;
 	sf::Vector2f m_position;
 	sf::Vector2f m_direction;
 	int m_radius;
 	float m_speed;
+
+	candle::RadialLight m_bloom;
 
 	void normaliseMovementVector();
 };
