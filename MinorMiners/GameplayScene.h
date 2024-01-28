@@ -67,7 +67,7 @@ private:
     int m_currentLevel{ 4 };
 
     Player m_player;
-    Enemy m_kid
+    Enemy m_kid;
     static int const NUM_AUDIO = 11;
     std::string tracks[NUM_AUDIO];
 
@@ -77,7 +77,7 @@ private:
     sf::Texture m_backgroundTexture;
 
     bool m_fogEnabled{false};
-    TextureHandler* m_textures
+    TextureHandler* m_textures;
 };
 
 #endif
