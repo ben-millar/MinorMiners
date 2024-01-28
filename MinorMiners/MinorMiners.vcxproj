@@ -40,6 +40,7 @@
     <ClCompile Include="src\Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="GameplayScene.h" />

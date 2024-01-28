@@ -2,7 +2,7 @@
 
 Player::Player(sf::Vector2f t_position): m_position(t_position)
 {
-	m_speed = 0.5f;
+	m_speed = 0.2f;
 	m_direction = sf::Vector2f(0.0f, 0.0f);
 
 	loadTexture();
@@ -14,9 +14,16 @@ Player::Player(sf::Vector2f t_position): m_position(t_position)
 	m_sprite.initTexture(State::Walking_down, &m_walkingVerticalTexture, 3);
 	m_sprite.initTexture(State::Standing, &m_walkingVerticalTexture, 1);
 	m_sprite.setState(State::Standing);
+	m_sprite.setOrigin({
+		(float)m_sprite.getTextureRect().width / 2.f,
+		(float)m_sprite.getTextureRect().height / 2.f
+		});
 
 	m_bloom.setRange(250.0f);
-	m_bloom.setPosition({ (float)m_sprite.getTextureRect().width, (float)m_sprite.getTextureRect().height});
+	m_bloom.setPosition({
+		(float)m_sprite.getTextureRect().width / 2.f,
+		(float)m_sprite.getTextureRect().height / 2.f
+		});
 	m_bloom.setIntensity(0.5);
 }
 
@@ -94,10 +101,10 @@ void Player::checkCollisions(std::vector<sf::FloatRect> t_colliders)
 
 void Player::checkInBounds()
 {
-	const float TOP_BOUND{ 100 };
-	const float BOTTOM_BOUND{ 880 };
-	const float LEFT_BOUND{ 100 };
-	const float RIGHT_BOUND{ 980 };
+	const float TOP_BOUND{ 150 };
+	const float BOTTOM_BOUND{ 920 };
+	const float LEFT_BOUND{ 130 };
+	const float RIGHT_BOUND{ 970 };
 
 	if (m_position.x-m_radius < LEFT_BOUND)
 	{

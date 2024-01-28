@@ -1,6 +1,7 @@
 #ifndef GAMEPLAY_SCENE_H
 #define GAMEPLAY_SCENE_H
 
+#include "Door.h"
 #include "IBaseScene.h"
 #include "Globals.h"
 #include "SceneManager.h"
@@ -45,8 +46,10 @@ private:
     void loadTextures();
 
     std::map<int, std::vector<sf::Vector2i>> m_levelData;
-    std::vector<Obstacle> m_walls;
     std::vector<Obstacle> m_obstacles;
+    std::vector<sf::FloatRect> m_obstacleColliders;
+    std::array<DoorState, 16> m_doorStates;
+    std::vector<Door> m_doors;
 
     candle::EdgeVector m_edges;
     candle::LightingArea m_fog;
@@ -61,6 +64,8 @@ private:
     sf::Sprite m_background; 
 
     sf::Texture m_backgroundTexture;
+
+    bool m_fogEnabled{false};
 };
 
 #endif

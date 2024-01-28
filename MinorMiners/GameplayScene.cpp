@@ -88,29 +88,26 @@ void GameplayScene::update(sf::Time t_dT)
 	m_kid.move(t_dT);
 	m_player.update(t_dT);
 
-	std::vector<sf::FloatRect> obsRects;
-
 	for (auto& obstacle : m_obstacles) {
 		m_player.collides(obstacle);
-		obsRects.push_back(obstacle.getBody().getGlobalBounds());
 	}
 
-	for (auto& wall : m_walls) {
-		m_player.collides(wall);
-		obsRects.push_back(wall.getBody().getGlobalBounds());
-	}
-
-	m_player.checkCollisions(obsRects);
+	m_player.checkCollisions(m_obstacleColliders);
 
 	checkPlayerPosition();
-	m_player.checkInBounds();
+
+	bool checkWalls{ true };
+	for (auto& door : m_doors) 
+		if (door.getCollider().contains(m_player.getPosition())) checkWalls = false;
+
+	if (checkWalls) m_player.checkInBounds();
 
 	updateFog();
 }
 
 void GameplayScene::render()
 {
-	renderFog();
+	if (m_fogEnabled) renderFog();
 
 	m_window->clear();
 
@@ -125,9 +122,8 @@ void GameplayScene::render()
 		m_window->draw(obstacle.getBody());
 	}
 
-	for (auto& wall : m_walls) {
-		m_window->draw(wall.getBody());
-	}
+	for (auto& door : m_doors) m_window->draw(door.getSprite());
+
 	m_window->draw(m_player);
 
 	m_window->draw(m_fog);
@@ -209,20 +205,21 @@ void GameplayScene::setLevel(int t_level)
 		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos, yPos + offset.y * 2}); // top left -> bottom left
 	}
 
-	m_walls.clear();
+	static std::set<int> brightRooms{ 0,1,4,5 };
+	m_fogEnabled = (!brightRooms.count(m_currentLevel));
 
-	for (int i = 0; i < 16; ++i)
-	{
-		for (int j = 0; j < 16; ++j)
-		{
-			if (i == 0 || i == 15 || j == 0 || j == 15) {
-				float xPos = (RESOLUTION.x / 16.f) * i;
-				float yPos = (RESOLUTION.y / 16.f) * j;
-
-				m_walls.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }));
-			}
-		}
+	for (auto& obstacle : m_obstacles) {
+		m_obstacleColliders.push_back(obstacle.getBody().getGlobalBounds());
 	}
+
+	m_doors.clear();
+	DoorState doorState = m_doorStates[m_currentLevel];
+
+	static float bufferPx{ 80.f };
+	if (doorState.north) m_doors.push_back(Door({ RESOLUTION.x / 2.f, bufferPx }));
+	if (doorState.south) m_doors.push_back(Door({ RESOLUTION.x / 2.f, RESOLUTION.y - bufferPx }));
+	if (doorState.east) m_doors.push_back(Door({ RESOLUTION.x - bufferPx, RESOLUTION.y / 2.f }));
+	if (doorState.west) m_doors.push_back(Door({ bufferPx, RESOLUTION.y / 2.f }));
 }
 
 void GameplayScene::loadTextures()
