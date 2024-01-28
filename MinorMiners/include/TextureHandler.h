@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class TextureHandler
 {
@@ -45,10 +46,13 @@ private:
 		loadTexture("assets/images/doorleft.png", "doorLeft");
 		loadTexture("assets/images/doorright.png", "doorRight");
 		loadTexture("assets/images/doortop.png", "doorTop");
+		loadTexture("assets/images/doorbottom.png", "doorBottom");
 
 		loadTexture("assets/images/box.png", "box");
 		loadTexture("assets/images/rock1.png", "rock1");
 		loadTexture("assets/images/rock2.png", "rock2");
+		
+		loadTexture("assets/images/torch.png", "Torch");
 	}
 
 	TextureHandler(TextureHandler& const t_textureHandler) = delete;

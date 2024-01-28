@@ -12,7 +12,7 @@ public:
 
 	void use();
 
-	void update(sf::Vector2f t_pos);
+	void update(sf::Time t_dt, sf::Vector2f t_pos);
 
 	void addTool(Tool* m_tool);
 
