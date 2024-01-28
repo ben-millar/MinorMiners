@@ -25,9 +25,27 @@ public:
 		return texture;
 	}
 
+	sf::Font* loadFont(std::string t_path, std::string t_key) {
+		sf::Font* font = new sf::Font();
+
+		if (!font->loadFromFile(t_path)) {
+			std::cout << "Error loading: " + t_key + " at path: " + t_path << std::endl;
+		}
+
+		m_fontMap[t_key] = font;
+		return font;
+	}
+
 	sf::Texture* getTexture(std::string t_key) {
 		if (m_textureMap.find(t_key) != m_textureMap.end())
 			return m_textureMap[t_key];
+
+		return nullptr;
+	}
+
+	sf::Font* getFont(std::string t_key) {
+		if (m_fontMap.find(t_key) != m_fontMap.end())
+			return m_fontMap[t_key];
 
 		return nullptr;
 	}
@@ -53,9 +71,12 @@ private:
 		loadTexture("assets/images/rock2.png", "rock2");
 		
 		loadTexture("assets/images/torch.png", "Torch");
+
+		loadFont("assets/Font/OpenSans.ttf", "Font");
 	}
 
 	TextureHandler(TextureHandler& const t_textureHandler) = delete;
 
 	std::unordered_map<std::string, sf::Texture*> m_textureMap;
+	std::unordered_map<std::string, sf::Font*> m_fontMap;
 };

@@ -10,8 +10,9 @@ void Game::run()
 	sceneManager->setWindow(m_window);
 
 	sceneManager->registerScene<GameplayScene>(SceneType::GAMEPLAY);
+	sceneManager->registerScene<SplashScreen>(SceneType::SPLASH);
 	sceneManager->registerScene<sandboxScene>(SceneType::SANDBOX);
-	sceneManager->setScene(SceneType::GAMEPLAY);
+	sceneManager->setScene(SceneType::SPLASH);
 
 	loadTextures();
 

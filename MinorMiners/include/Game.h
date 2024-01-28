@@ -7,6 +7,7 @@
 #include "sandboxScene.h"
 #include "Globals.h"
 #include "SceneManager.h"
+#include "SplashScreen.h"
 
 
 class Game

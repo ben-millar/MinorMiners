@@ -9,7 +9,7 @@
 #include "IBaseScene.h"
 #include "Globals.h"
 
-enum class SceneType { GAMEPLAY, SANDBOX };
+enum class SceneType { GAMEPLAY, SANDBOX, SPLASH };
 
 using Scene = std::unique_ptr<IBaseScene>;
 using SceneFactory = std::unordered_map<SceneType, std::function<Scene()>>;
