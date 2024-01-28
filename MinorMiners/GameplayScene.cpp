@@ -7,6 +7,8 @@ GameplayScene::GameplayScene()
 	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
 
 	setLevel(m_currentLevel);
+
+	loadAudio();
 }
 
 GameplayScene::~GameplayScene()
@@ -46,6 +48,9 @@ void GameplayScene::processEvents()
 				break;
 			case sf::Keyboard::Num2:
 				setLevel(1);
+				break;
+			case sf::Keyboard::Space:
+				playRandomAudio();
 				break;
 			default:
 				break;
@@ -192,13 +197,32 @@ void GameplayScene::setLevel(int t_level)
 	}
 }
 //tbc
-void GameplayScene::setAudio()
+void GameplayScene::loadAudio()
 {
-	int const NUM_AUDIO = 11;
-	std::string tracks[] = { "again_seriously","are_you_even_listening","dont_leave_me_here","tbc" };
+	AudioHandler* handler = AudioHandler::getInstance();
+
+	tracks[0] = { "again_seriously" };
+	tracks[1] = { "are_you_even_listening" };
+	tracks[2] = { "dont_leave_me_here" };
+	tracks[3] = { "im_lonely" };
+	tracks[4] = { "inspect" };
+	tracks[5] = { "pssst" };
+	tracks[6] = { "say_no" };
+	tracks[7] = { "spiders" };
+	tracks[8] = { "taking_so_long" };
+	tracks[9] = { "you_found_me" };
+	tracks[10] = { "you_will_come_back" };
+
 	for (int i = 0; i < NUM_AUDIO; i++)
 	{
-		AudioHandler track;
-		//track.loadAudio()
+		handler->loadSoundBuffer(tracks[i], tracks[i]);
 	}
+	
+}
+
+void GameplayScene::playRandomAudio()
+{
+	AudioHandler* handler = AudioHandler::getInstance();
+	int num = rand() % NUM_AUDIO;
+	handler->play(tracks[num]);
 }

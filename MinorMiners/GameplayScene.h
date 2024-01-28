@@ -37,7 +37,9 @@ private:
 
     void setLevel(int t_level);
 
-    void setAudio();
+    void loadAudio();
+
+    void playRandomAudio();
 
     std::map<int, std::vector<sf::Vector2i>> m_levelData;
     std::vector<Obstacle> m_walls;
@@ -47,7 +49,9 @@ private:
 
     Player m_player;
     Enemy m_kid;
-    std::vector<AudioHandler> m_audio;
+    static int const NUM_AUDIO = 11;
+    std::string tracks[NUM_AUDIO];
+
 };
 
 #endif

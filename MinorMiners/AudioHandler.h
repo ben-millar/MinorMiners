@@ -1,5 +1,7 @@
-#ifndef AUDIO_HANDLER.H
-#define AUDIO_HANDLER.H
+#ifndef AUDIO_HANDLER_H
+#define AUDIO_HANDLER_H
+
+#include <map>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -8,17 +10,37 @@
 class AudioHandler
 {
 public:
-	void loadAudio(std::string t_fileName)
+	static AudioHandler* getInstance() {
+		static AudioHandler instance;
+		return &instance;
+	}
+
+	void operator=(AudioHandler& const) = delete;
+	AudioHandler(AudioHandler& const) = delete;
+
+	void loadSoundBuffer(std::string t_fileName, std::string t_key)
 	{
-		if (!m_buffer.loadFromFile("assets\\VoiceLines\\" + t_fileName + ".wav"))
+		sf::SoundBuffer buffer;
+
+		if (!buffer.loadFromFile("assets\\VoiceLines\\" + t_fileName + ".wav"))
 		{//error message
 			std::cout << "problem loading sound" << std::endl;
 		}
-		m_audio.setBuffer(m_buffer);
+
+		m_audioMap.insert({ t_key, buffer });
+		m_audio.setBuffer(buffer);
 	}
 
-	void play()
+	sf::SoundBuffer getSoundBuffer(std::string t_key) {
+		if (m_audioMap.count(t_key) == 0) 
+			throw std::runtime_error("That sound doesn't exist, soz :(");
+
+		return m_audioMap.find(t_key)->second;
+	}
+
+	void play(std::string t_key)
 	{
+		m_audio.setBuffer(m_audioMap.find(t_key)->second);
 		m_audio.play();
 	}
 
@@ -34,8 +56,11 @@ public:
 	}*/
 
 private:
-	sf::SoundBuffer m_buffer;
+	AudioHandler() {}
+
 	sf::Sound m_audio;
+
+	std::map<std::string, sf::SoundBuffer> m_audioMap;
 };
 
 #endif
