@@ -2,7 +2,7 @@
 
 Player::Player(sf::Vector2f t_position): m_position(t_position)
 {
-	m_speed = 0.2f;
+	m_speed = 0.15f;
 
 	m_direction = sf::Vector2f(0.0f, 0.0f);
 
@@ -160,15 +160,15 @@ void Player::move(sf::Time t_dT)
 	if (magnitude == 0)
 		m_sprite.setState(State::Standing);
 
-	m_position.x += m_direction.x * m_speed* t_dT.asMilliseconds();
-	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
+	m_position.x += m_direction.x * m_speed * ((double)t_dT.asMicroseconds() / 1000.);
+	m_position.y += m_direction.y * m_speed * ((double)t_dT.asMicroseconds() / 1000.);
 	
 	m_sprite.setPosition(m_position);
 	// This doesn't work, I blame Aaron
 	//sf::Vector2f spriteSize = static_cast<sf::Vector2f>(m_sprite.getTextureRect().getSize()) / 2.0f;
 	sf::Vector2f spriteSize = { 
-		(float)m_sprite.getTextureRect().width,
-		(float)m_sprite.getTextureRect().height 
+		(float)m_sprite.getTextureRect().width / 2.f,
+		(float)m_sprite.getTextureRect().height / 2.f
 	};
 
 	spriteSize.x *= m_sprite.getScale().x;

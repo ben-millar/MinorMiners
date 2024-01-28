@@ -37,20 +37,6 @@ void GameplayScene::processEvents()
 			case sf::Keyboard::Escape:
 				m_window->close();
 				break;
-			case sf::Keyboard::Left:
-				m_player.setDirectionX(-1.0f);
-				break;
-			case sf::Keyboard::Right:
-				m_player.setDirectionX(1.0f);
-				break;
-			case sf::Keyboard::Up:
-				m_player.setDirectionY(-1.0f);
-				break;
-			case sf::Keyboard::Down:
-				m_player.setDirectionY(1.0f);
-				break;
-			default:
-				break;
 			}
 		}
 		if (e.type == sf::Event::KeyReleased)
@@ -89,6 +75,26 @@ void GameplayScene::update(sf::Time t_dT)
 	// Do game update here
 	m_kid.move(t_dT);
 	m_player.update(t_dT);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		m_player.setDirectionY(-1.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		m_player.setDirectionY(1.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		m_player.setDirectionX(-1.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		m_player.setDirectionX(1.0f);
+	}
 
 	for (auto& obstacle : m_obstacles) {
 		m_player.collides(obstacle);
