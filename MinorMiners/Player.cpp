@@ -164,7 +164,13 @@ void Player::move(sf::Time t_dT)
 	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
 	
 	m_sprite.setPosition(m_position);
-	sf::Vector2f spriteSize = static_cast<sf::Vector2f>(m_sprite.getTextureRect().getSize()) / 2.0f;
+	// This doesn't work, I blame Aaron
+	//sf::Vector2f spriteSize = static_cast<sf::Vector2f>(m_sprite.getTextureRect().getSize()) / 2.0f;
+	sf::Vector2f spriteSize = { 
+		(float)m_sprite.getTextureRect().width,
+		(float)m_sprite.getTextureRect().height 
+	};
+
 	spriteSize.x *= m_sprite.getScale().x;
 	spriteSize.y *= m_sprite.getScale().y;
 	m_bloom.setPosition(m_position + spriteSize);
