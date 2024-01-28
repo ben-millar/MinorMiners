@@ -42,9 +42,9 @@ void GameplayScene::processEvents()
 			case sf::Keyboard::Escape:
 				m_window->close();
 				break;
-			case sf::Keyboard::Space:
+			/*case sf::Keyboard::Space:
 				playRandomAudio();
-				break;
+				break;*/
 			default:
 				break;
 			}
@@ -121,6 +121,8 @@ void GameplayScene::update(sf::Time t_dT)
 	if (checkWalls) m_player.checkInBounds();
 
 	updateFog();
+
+	playRandomAudio();
 }
 
 void GameplayScene::render()
@@ -296,6 +298,10 @@ void GameplayScene::loadAudio()
 void GameplayScene::playRandomAudio()
 {
 	AudioHandler* handler = AudioHandler::getInstance();
-	int num = rand() % NUM_AUDIO;
-	handler->play(tracks[num]);
+	static sf::Clock clock;
+
+	if (clock.getElapsedTime() > sf::seconds(10.f)) {
+		clock.restart();
+		handler->playRandom();
+	}
 }

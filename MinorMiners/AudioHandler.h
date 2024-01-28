@@ -29,6 +29,7 @@ public:
 
 		m_audioMap.insert({ t_key, buffer });
 		m_audio.setBuffer(buffer);
+		m_keys.push_back(t_key);
 	}
 
 	sf::SoundBuffer getSoundBuffer(std::string t_key) {
@@ -44,6 +45,11 @@ public:
 		m_audio.play();
 	}
 
+	void playRandom()
+	{
+		this->play(m_keys[rand()%m_keys.size()]);
+
+	}
 	void setAudio(bool t_bool)
 	{
 		m_audio.setLoop(t_bool);
@@ -61,6 +67,7 @@ private:
 	sf::Sound m_audio;
 
 	std::map<std::string, sf::SoundBuffer> m_audioMap;
+	std::vector<std::string> m_keys;
 };
 
 #endif
