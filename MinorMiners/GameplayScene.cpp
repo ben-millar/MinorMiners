@@ -133,6 +133,7 @@ void GameplayScene::render()
 	for (auto& door : m_doors) m_window->draw(door.getSprite());
 
 	m_window->draw(m_player);
+	//m_window->draw(m_player.getCollider());
 
 	m_window->draw(m_fog);
 

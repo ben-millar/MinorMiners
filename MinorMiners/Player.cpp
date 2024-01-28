@@ -11,15 +11,22 @@ Player::Player(sf::Vector2f t_position): m_position(t_position)
 	m_sprite.setFramteDelay(0.25);
 	m_sprite.setScale(0.075f, 0.075f);
 	m_sprite.setState(State::Standing);
+
+	sf::IntRect texRect = m_sprite.getTextureRect();
+
 	m_sprite.setOrigin({
-		(float)m_sprite.getTextureRect().width / 2.f,
-		(float)m_sprite.getTextureRect().height / 2.f
+		(float)texRect.width / 2.f,
+		(float)texRect.height / 2.f
 		});
+
+	m_collider.setRadius(m_sprite.getGlobalBounds().width / 2.5f);
+	m_collider.setOrigin(m_collider.getRadius(), m_collider.getRadius());
+	m_collider.setFillColor(sf::Color(255,0,0,128));
 
 	m_bloom.setRange(250.0f);
 	m_bloom.setPosition({
-		(float)m_sprite.getTextureRect().width / 2.f,
-		(float)m_sprite.getTextureRect().height / 2.f
+		(float)texRect.width / 2.f,
+		(float)texRect.height / 2.f
 		});
 	m_bloom.setIntensity(0.5);
 }
@@ -31,7 +38,7 @@ void Player::setDirection(sf::Vector2f t_direction)
 
 bool Player::collides(Obstacle& t_obstacle)
 {
-	if (m_sprite.getGlobalBounds().intersects(t_obstacle.getBody().getGlobalBounds()))
+	if (m_collider.getGlobalBounds().intersects(t_obstacle.getBody().getGlobalBounds()))
 	{
 		t_obstacle.collisionStart();
 		return true;
@@ -59,9 +66,9 @@ void Player::loadTexture()
 void Player::checkCollisions(std::vector<sf::FloatRect> t_colliders)
 {
 	for (auto& rect : t_colliders) {
-		if (!m_sprite.getGlobalBounds().intersects(rect)) continue;
+		if (!m_collider.getGlobalBounds().intersects(rect)) continue;
 
-		auto playerBounds = m_sprite.getGlobalBounds();
+		auto playerBounds = m_collider.getGlobalBounds();
 
 		// Calculate the overlap on each axis
 		float overlapLeft = playerBounds.left + playerBounds.width - rect.left;
@@ -162,6 +169,8 @@ void Player::move(sf::Time t_dT)
 
 	m_position.x += m_direction.x * m_speed * ((double)t_dT.asMicroseconds() / 1000.);
 	m_position.y += m_direction.y * m_speed * ((double)t_dT.asMicroseconds() / 1000.);
+
+	m_collider.setPosition(m_position + sf::Vector2f(0.f, m_sprite.getGlobalBounds().height / 4.f));
 	
 	m_sprite.setPosition(m_position);
 	// This doesn't work, I blame Aaron
