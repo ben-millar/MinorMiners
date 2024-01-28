@@ -307,7 +307,7 @@ void GameplayScene::setLevel(int t_level)
 		m_fog.setAreaOpacity(0.4f); // BRIGHT
 	}
 	else {
-		m_fog.setAreaOpacity(0.0f); // DARK
+		m_fog.setAreaOpacity(0.9f); // DARK
 	}
 
 	m_obstacleColliders.clear();

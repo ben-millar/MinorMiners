@@ -70,7 +70,7 @@ private:
     std::vector <candle::RadialLight*> m_lightSources;
     std::vector<Tool*> m_environmentTools;
 
-    int m_currentLevel{ 0 };
+    int m_currentLevel{ 4 };
 
     Player m_player;
     Enemy m_kid;
