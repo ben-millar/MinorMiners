@@ -2,7 +2,7 @@
 
 Player::Player(sf::Vector2f t_position): m_position(t_position)
 {
-	m_speed = 0.15f;
+	m_speed = 0.13f;
 
 	m_direction = sf::Vector2f(0.0f, 0.0f);
 

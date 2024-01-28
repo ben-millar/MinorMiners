@@ -9,7 +9,7 @@ Obstacle::Obstacle(sf::Vector2f t_position)
 
 	m_sprite.setTexture(*(m_textures[rand() % 3]));
 	m_sprite.setOrigin(m_sprite.getTextureRect().width / 2.f, m_sprite.getTextureRect().height / 2.f);
-	m_sprite.setScale(0.25f, 0.25f);
+	m_sprite.setScale(0.22f, 0.22f);
 	m_sprite.setPosition(t_position);
 
 	m_body.setSize({ 67.5f, 67.5f });

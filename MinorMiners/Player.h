@@ -15,7 +15,7 @@
 class Player
 {
 public:
-	Player(sf::Vector2f t_position=sf::Vector2f(200.0f,200.0f));
+	Player(sf::Vector2f t_position=sf::Vector2f(540.0f,540.0f));
 
 	void move(sf::Time t_dT);
 	void update(sf::Time t_dT);
