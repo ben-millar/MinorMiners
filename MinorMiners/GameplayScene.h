@@ -40,6 +40,8 @@ public:
 
 private:
 
+    void setDoorStates();
+
     void renderFog();
 
     void updateFog();

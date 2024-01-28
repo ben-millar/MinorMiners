@@ -7,6 +7,8 @@ GameplayScene::GameplayScene() :
 
 	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
 
+	setDoorStates();
+
 	setLevel(m_currentLevel);
 
 	loadAudio();
@@ -123,7 +125,7 @@ void GameplayScene::update(sf::Time t_dT)
 
 void GameplayScene::render()
 {
-	if (m_fogEnabled) renderFog();
+	renderFog();
 
 	m_window->clear();
 
@@ -147,6 +149,28 @@ void GameplayScene::render()
 
 
 	m_window->display();
+}
+
+void GameplayScene::setDoorStates()
+{
+	m_doorStates = { {
+		DoorState(false, false, true, false),	// 1
+		DoorState(false, true, false, true),	// 2
+		DoorState(false, false, true, false),	// 3
+		DoorState(false, true, false, true),	// 4
+		DoorState(false, false, true, false),	// 5
+		DoorState(true, false, true, true),		// 6
+		DoorState(false, false, true, true),	// 7
+		DoorState(true, true, false, true),		// 8
+		DoorState(false, true, true, false),	// 9
+		DoorState(false, true, false, true),	// 10
+		DoorState(false, true, true, false),	// 11
+		DoorState(true, false, false, true),	// 12
+		DoorState(true, true, false, false),	// 13
+		DoorState(true, false, true, false),	// 14
+		DoorState(true, false, true, true),		// 15
+		DoorState(false, false, false, true)	// 16
+		} };
 }
 
 void GameplayScene::renderFog()
@@ -210,20 +234,26 @@ void GameplayScene::setLevel(int t_level)
 	m_obstacles.clear();
 
 	sf::Vector2f offset = RESOLUTION / 32.f;
+	sf::Vector2f lightOffset = offset - sf::Vector2f{10.f, 10.f};
 
 	for (sf::Vector2i& pos : m_levelData[m_currentLevel]) {
 		float xPos = (RESOLUTION.x / 16.f) * pos.x;
 		float yPos = (RESOLUTION.y / 16.f) * pos.y;
 
 		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }));
-		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos}); // top left -> top right
-		m_edges.emplace_back(sf::Vector2f{xPos + offset.x * 2, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // top right -> bottom right
-		m_edges.emplace_back(sf::Vector2f{xPos, yPos + offset.y * 2}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // bottom left -> bottom right
-		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos, yPos + offset.y * 2}); // top left -> bottom left
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos + lightOffset.x * 2, yPos}); // top left -> top right
+		m_edges.emplace_back(sf::Vector2f{xPos + lightOffset.x * 2, yPos}, sf::Vector2f{xPos + lightOffset.x * 2, yPos + lightOffset.y * 2}); // top right -> bottom right
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos + lightOffset.y * 2}, sf::Vector2f{xPos + lightOffset.x * 2, yPos + lightOffset.y * 2}); // bottom left -> bottom right
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos, yPos + lightOffset.y * 2}); // top left -> bottom left
 	}
 
 	static std::set<int> brightRooms{ 0,1,4,5 };
-	m_fogEnabled = (!brightRooms.count(m_currentLevel));
+	if (brightRooms.count(m_currentLevel)) {
+		m_fog.setAreaOpacity(0.4f); // BRIGHT
+	}
+	else {
+		m_fog.setAreaOpacity(0.9f); // DARK
+	}
 
 	m_obstacleColliders.clear();
 	for (auto& obstacle : m_obstacles) {
