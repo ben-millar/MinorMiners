@@ -19,7 +19,7 @@ struct DoorState {
 class Door
 {
 public:
-	Door(sf::Vector2f t_position) :
+	Door(sf::Vector2f t_position, sf::Texture* t_texture) :
 		m_position{t_position} 
 	{
 		m_collider.setFillColor(sf::Color::Red);
@@ -27,13 +27,26 @@ public:
 		m_collider.setOrigin(100.f, 100.f);
 
 		m_collider.setPosition(m_position);
+
+		m_texture = *t_texture;
+		m_sprite.setTexture(*t_texture);
+		m_sprite.setScale(0.3f, 0.3f);
+		m_sprite.setPosition(t_position);
+		m_sprite.setOrigin(m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height);
 	}
 
 	~Door() = default;
 
-	sf::RectangleShape getSprite() { return m_collider; }
+	void setTexture(sf::Texture t_texture) {
+		m_texture = t_texture;
+		m_sprite.setTexture(t_texture);
+	}
+
+	sf::Sprite getSprite() { return m_sprite; }
 	sf::FloatRect getCollider() { return m_collider.getGlobalBounds(); }
 private:
+	sf::Texture m_texture;
+	sf::Sprite m_sprite;
 	sf::RectangleShape m_collider;
 	sf::Vector2f m_position;
 };

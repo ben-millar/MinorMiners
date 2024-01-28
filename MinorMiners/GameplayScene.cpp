@@ -276,11 +276,13 @@ void GameplayScene::setLevel(int t_level)
 	m_doors.clear();
 	DoorState doorState = m_doorStates[m_currentLevel];
 
+	auto tm = TextureHandler::getInstance();
 	static float bufferPx{ 80.f };
-	if (doorState.north) m_doors.push_back(Door({ RESOLUTION.x / 2.f, bufferPx }));
-	if (doorState.south) m_doors.push_back(Door({ RESOLUTION.x / 2.f, RESOLUTION.y - bufferPx }));
-	if (doorState.east) m_doors.push_back(Door({ RESOLUTION.x - bufferPx, RESOLUTION.y / 2.f }));
-	if (doorState.west) m_doors.push_back(Door({ bufferPx, RESOLUTION.y / 2.f }));
+
+	if (doorState.north) m_doors.push_back(Door({ RESOLUTION.x / 2.f, bufferPx }, tm->getTexture("doorTop")));
+	if (doorState.south) m_doors.push_back(Door({ RESOLUTION.x / 2.f, RESOLUTION.y - bufferPx }, tm->getTexture("doorBottom")));
+	if (doorState.east) m_doors.push_back(Door({ RESOLUTION.x - bufferPx, RESOLUTION.y / 2.f }, tm->getTexture("doorRight")));
+	if (doorState.west) m_doors.push_back(Door({ bufferPx, RESOLUTION.y / 2.f }, tm->getTexture("doorLeft")));
 }
 //tbc
 void GameplayScene::loadAudio()
