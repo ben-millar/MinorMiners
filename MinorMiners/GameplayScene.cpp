@@ -65,6 +65,18 @@ void GameplayScene::processEvents()
 			case sf::Keyboard::Down:
 				m_player.setDirectionY(0.0f);
 				break;
+			case sf::Keyboard::D:
+				m_player.setDirectionX(0.0f);
+				break;
+			case sf::Keyboard::A:
+				m_player.setDirectionX(0.0f);
+				break;
+			case sf::Keyboard::W:
+				m_player.setDirectionY(0.0f);
+				break;
+			case sf::Keyboard::S:
+				m_player.setDirectionY(0.0f);
+				break;
 			default:
 				break;
 			}
@@ -232,7 +244,8 @@ void GameplayScene::setLevel(int t_level)
 	m_currentLevel = t_level;
 
 	m_obstacles.clear();
-
+	m_edges.clear();
+		
 	sf::Vector2f offset = RESOLUTION / 32.f;
 	sf::Vector2f lightOffset = offset - sf::Vector2f{10.f, 10.f};
 
