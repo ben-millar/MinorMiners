@@ -208,6 +208,7 @@ void GameplayScene::setLevel(int t_level)
 	static std::set<int> brightRooms{ 0,1,4,5 };
 	m_fogEnabled = (!brightRooms.count(m_currentLevel));
 
+	m_obstacleColliders.clear();
 	for (auto& obstacle : m_obstacles) {
 		m_obstacleColliders.push_back(obstacle.getBody().getGlobalBounds());
 	}
