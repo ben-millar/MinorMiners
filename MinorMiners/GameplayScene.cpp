@@ -121,7 +121,7 @@ void GameplayScene::render()
 	m_window->draw(m_background);
 
 	for (auto& obstacle : m_obstacles) {
-		m_window->draw(obstacle.getBody());
+		m_window->draw(obstacle.getSprite());
 	}
 
 	for (auto& door : m_doors) m_window->draw(door.getSprite());

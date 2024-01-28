@@ -41,6 +41,14 @@ private:
 		loadTexture("assets/images/moveLeft.png", "PlayerMoveLeft");
 		loadTexture("assets/images/moveRight.png", "PlayerMoveRight");
 		loadTexture("assets/images/spritewalk.png", "playerMoveVertical");
+
+		loadTexture("assets/images/doorleft.png", "doorLeft");
+		loadTexture("assets/images/doorright.png", "doorRight");
+		loadTexture("assets/images/doortop.png", "doorTop");
+
+		loadTexture("assets/images/box.png", "box");
+		loadTexture("assets/images/rock1.png", "rock1");
+		loadTexture("assets/images/rock2.png", "rock2");
 	}
 
 	TextureHandler(TextureHandler& const t_textureHandler) = delete;
