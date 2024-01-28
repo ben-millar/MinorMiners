@@ -7,6 +7,8 @@ GameplayScene::GameplayScene() :
 
 	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
 
+	m_toolsToLevels.push_back({ new Torch({200,200}), 0 });
+
 	setDoorStates();
 
 	setLevel(m_currentLevel);
@@ -77,6 +79,26 @@ void GameplayScene::processEvents()
 			case sf::Keyboard::S:
 				m_player.setDirectionY(0.0f);
 				break;
+			case sf::Keyboard::E:
+				if (auto iter = m_environmentTools.begin(); iter != m_environmentTools.end()) {
+					m_player.addTool(*iter);
+
+					for (auto toolIter = m_toolsToLevels.begin(); toolIter != m_toolsToLevels.end(); ++toolIter) {
+						if (toolIter->first == *iter)
+							if (toolIter->second == m_currentLevel) {
+								m_toolsToLevels.erase(toolIter);
+								break;
+							}
+					}
+					m_environmentTools.erase(iter);
+				}
+				break;
+			case sf::Keyboard::Q:
+				if (auto tool = m_player.dropTool(); tool != nullptr) {
+					m_environmentTools.push_back(tool);
+					m_toolsToLevels.push_back({ tool, m_currentLevel });
+				}
+				break;
 			default:
 				break;
 			}
@@ -122,6 +144,8 @@ void GameplayScene::update(sf::Time t_dT)
 		m_player.collides(obstacle);
 	}
 
+	for (auto& tool : m_environmentTools) tool->update(t_dT, tool->getSprite().getPosition());
+
 	m_player.checkCollisions(m_obstacleColliders);
 
 	checkPlayerPosition();
@@ -140,21 +164,19 @@ void GameplayScene::render()
 	renderFog();
 
 	m_window->clear();
-
-	// Draw your stuff here
-	m_window->draw(m_player);
-	m_window->draw(m_kid.getBody());
-	//m_window->draw(m_kid.getBodyTarget());
-
 	m_window->draw(m_background);
 
-	for (auto& obstacle : m_obstacles) {
-		m_window->draw(obstacle.getSprite());
-	}
+	// Draw your stuff here
+	m_window->draw(m_kid.getBody());
+
+	for (auto& tool : m_environmentTools) m_window->draw(*tool);
+
+	for (auto& obstacle : m_obstacles) m_window->draw(obstacle.getSprite());
 
 	for (auto& door : m_doors) m_window->draw(door.getSprite());
 
 	m_window->draw(m_player);
+	for (auto& toolInBelt : m_player.getTools()) m_window->draw(*toolInBelt);
 	//m_window->draw(m_player.getCollider());
 
 	m_window->draw(m_fog);
@@ -191,6 +213,13 @@ void GameplayScene::renderFog()
 	for (auto light : m_lightSources)
 		m_fog.draw(*light);
 
+	for (auto light : m_environmentTools)
+		if (light->getType() == ToolType::TORCH)
+			m_fog.draw(*dynamic_cast<Torch*>(light));
+
+	if (m_player.getTorch())
+		m_fog.draw(*m_player.getTorch());
+
 	m_fog.display();
 }
 
@@ -198,6 +227,14 @@ void GameplayScene::updateFog()
 {
 	for (auto light : m_lightSources)
 		light->castLight(m_edges.begin(), m_edges.end());
+
+	for (auto light : m_environmentTools)
+		if (light->getType() == ToolType::TORCH)
+			dynamic_cast<Torch*>(light)->getLight().castLight(m_edges.begin(), m_edges.end());
+
+	if (m_player.getTorch()) {
+		m_player.getTorch()->getLight().castLight(m_edges.begin(), m_edges.end());
+	}
 }
 
 void GameplayScene::checkPlayerPosition()
@@ -241,7 +278,10 @@ void GameplayScene::checkPlayerPosition()
 
 void GameplayScene::setLevel(int t_level)
 {
+	unloadLevel();
 	m_currentLevel = t_level;
+
+	loadLevelItems(t_level);
 
 	m_obstacles.clear();
 	m_edges.clear();
@@ -260,7 +300,7 @@ void GameplayScene::setLevel(int t_level)
 		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos, yPos + lightOffset.y * 2}); // top left -> bottom left
 	}
 
-	static std::set<int> brightRooms{ 0,1,4,5 };
+	static std::set<int> brightRooms{ 1,4,5 };
 	if (brightRooms.count(m_currentLevel)) {
 		m_fog.setAreaOpacity(0.4f); // BRIGHT
 	}
@@ -284,6 +324,7 @@ void GameplayScene::setLevel(int t_level)
 	if (doorState.east) m_doors.push_back(Door({ RESOLUTION.x - bufferPx, RESOLUTION.y / 2.f }, tm->getTexture("doorRight")));
 	if (doorState.west) m_doors.push_back(Door({ bufferPx, RESOLUTION.y / 2.f }, tm->getTexture("doorLeft")));
 }
+
 //tbc
 void GameplayScene::loadAudio()
 {
@@ -313,4 +354,19 @@ void GameplayScene::playRandomAudio()
 	AudioHandler* handler = AudioHandler::getInstance();
 	int num = rand() % NUM_AUDIO;
 	handler->play(tracks[num]);
+
+}
+
+void GameplayScene::loadLevelItems(int t_level)
+{
+	for (auto pair : m_toolsToLevels) {
+		std::cout << "There's a tool in level: " << pair.second << std::endl;	
+		if (pair.second == t_level)
+			m_environmentTools.push_back(pair.first);
+	}
+}
+
+void GameplayScene::unloadLevel()
+{
+	m_environmentTools.clear();
 }

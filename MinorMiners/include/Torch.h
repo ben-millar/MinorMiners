@@ -9,13 +9,14 @@ class Torch : public Tool
 {
 public: 
 	Torch();
+	Torch(sf::Vector2f t_pos);
 	~Torch() = default;
 
 	virtual void use()override;
 
 	virtual void drop()override;
 
-	virtual void update(sf::Vector2f t_parentPos)override;
+	virtual void update(sf::Time t_dt, sf::Vector2f t_parentPos)override;
 
 	virtual candle::RadialLight& getLight() { return m_light; }
 
@@ -24,8 +25,5 @@ public:
 	}
 
 private:
-	sf::Sprite m_torchSprite;
-	sf::Texture m_torchTexture;
-
 	candle::RadialLight m_light;
 };

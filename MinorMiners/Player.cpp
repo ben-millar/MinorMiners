@@ -188,7 +188,7 @@ void Player::move(sf::Time t_dT)
 void Player::update(sf::Time t_dT)
 {
 	m_sprite.update(t_dT);
-	m_tools.update(m_position);
+	m_tools.update(t_dT, m_position);
 	move(t_dT);
 }
 

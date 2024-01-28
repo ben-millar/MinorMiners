@@ -17,10 +17,10 @@ void Toolbelt::use()
 	m_currentTool->use();
 }
 
-void Toolbelt::update(sf::Vector2f t_pos)
+void Toolbelt::update(sf::Time t_dt, sf::Vector2f t_pos)
 {
 	for (auto tool : m_tools) {
-		tool->update(t_pos);
+		tool->update(t_dt, t_pos);
 	}
 }
 

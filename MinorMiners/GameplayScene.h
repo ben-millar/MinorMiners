@@ -11,6 +11,7 @@
 #include "AudioHandler.h"
 
 #include "TextureHandler.h"
+#include "hammer.h"
 
 #include "Candle/LightingArea.hpp"
 
@@ -53,6 +54,9 @@ private:
     void loadAudio();
 
     void playRandomAudio();
+    void loadLevelItems(int t_level);
+
+    void unloadLevel();
 
     std::map<int, std::vector<sf::Vector2i>> m_levelData;
     std::vector<Obstacle> m_obstacles;
@@ -66,7 +70,7 @@ private:
     std::vector <candle::RadialLight*> m_lightSources;
     std::vector<Tool*> m_environmentTools;
 
-    int m_currentLevel{ 4 };
+    int m_currentLevel{ 0 };
 
     Player m_player;
     Enemy m_kid;
@@ -80,6 +84,8 @@ private:
 
     bool m_fogEnabled{false};
     TextureHandler* m_textures;
+
+    std::vector<std::pair<Tool*, int>> m_toolsToLevels;
 };
 
 #endif

@@ -43,6 +43,8 @@ public:
 	
 	Torch* getTorch() { return m_tools.getTorch(); }
 
+	std::vector<Tool*>& getTools() { return m_tools.getTools(); }
+
 private:
 	void loadTexture();
 	sf::AnimatedSprite m_sprite;
