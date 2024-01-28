@@ -3,16 +3,13 @@
 Player::Player(sf::Vector2f t_position): m_position(t_position)
 {
 	m_speed = 0.2f;
+
 	m_direction = sf::Vector2f(0.0f, 0.0f);
 
 	loadTexture();
 
 	m_sprite.setFramteDelay(0.25);
 	m_sprite.setScale(0.075f, 0.075f);
-	m_sprite.initTexture(State::Walking_left, &m_walkingLeftTexture, 4);
-	m_sprite.initTexture(State::Walking_right, &m_walkingRightTexture, 4);
-	m_sprite.initTexture(State::Walking_down, &m_walkingVerticalTexture, 3);
-	m_sprite.initTexture(State::Standing, &m_walkingVerticalTexture, 1);
 	m_sprite.setState(State::Standing);
 	m_sprite.setOrigin({
 		(float)m_sprite.getTextureRect().width / 2.f,
@@ -48,15 +45,15 @@ bool Player::collides(Obstacle& t_obstacle)
 
 void Player::loadTexture()
 {
-	if (!m_walkingRightTexture.loadFromFile("assets/images/moveright.png")) {
-		std::cout << "ERROR Loading Walking Right Texture\n";
-	}
-	if (!m_walkingLeftTexture.loadFromFile("assets/images/moveleft.png")) {
-		std::cout << "ERROR Loading Walking Left Texture\n";
-	}
-	if (!m_walkingVerticalTexture.loadFromFile("assets/images/spritewalk.png")) {
-		std::cout << "ERROR Loading Walking Left Texture\n";
-	}
+	TextureHandler* handler = TextureHandler::getInstance();
+	auto walkingLeft = handler->getTexture("PlayerMoveLeft");
+	auto walkingRight = handler->getTexture("PlayerMoveRight");
+	auto walkingVertical = handler->getTexture("playerMoveVertical");
+
+	m_sprite.initTexture(State::Walking_left, walkingLeft, 4);
+	m_sprite.initTexture(State::Walking_right, walkingRight, 4);
+	m_sprite.initTexture(State::Walking_down, walkingVertical, 3);
+	m_sprite.initTexture(State::Standing, walkingVertical, 1);
 }
 
 void Player::checkCollisions(std::vector<sf::FloatRect> t_colliders)
@@ -167,7 +164,10 @@ void Player::move(sf::Time t_dT)
 	m_position.y += m_direction.y * m_speed* t_dT.asMilliseconds();
 	
 	m_sprite.setPosition(m_position);
-	m_bloom.setPosition(m_position);
+	sf::Vector2f spriteSize = static_cast<sf::Vector2f>(m_sprite.getTextureRect().getSize()) / 2.0f;
+	spriteSize.x *= m_sprite.getScale().x;
+	spriteSize.y *= m_sprite.getScale().y;
+	m_bloom.setPosition(m_position + spriteSize);
 }
 
 void Player::update(sf::Time t_dT)
