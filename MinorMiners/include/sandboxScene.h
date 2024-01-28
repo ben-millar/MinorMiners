@@ -8,6 +8,7 @@
 #include "Player.h"
 
 #include "Candle/LightingArea.hpp"
+#include "Candle/geometry/Polygon.hpp"
 
 #include <vector>
 

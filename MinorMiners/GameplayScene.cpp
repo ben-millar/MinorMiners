@@ -1,6 +1,7 @@
 #include "GameplayScene.h"
 
-GameplayScene::GameplayScene()
+GameplayScene::GameplayScene() : 
+	m_fog(candle::LightingArea::Mode::FOG, { 0.0f, 0.0f }, RESOLUTION)
 {
 	std::cout << "Creating " << typeid(*this).name() << std::endl;
 
@@ -9,6 +10,14 @@ GameplayScene::GameplayScene()
 	setLevel(m_currentLevel);
 
 	loadAudio();
+
+	m_fog.setAreaColor(sf::Color::Black);
+
+	m_lightSources.push_back(&m_player.getLight());
+	m_textures = TextureHandler::getInstance();
+
+	m_background.setTexture(*m_textures->getTexture("Background"));
+
 }
 
 GameplayScene::~GameplayScene()
@@ -30,24 +39,6 @@ void GameplayScene::processEvents()
 			{
 			case sf::Keyboard::Escape:
 				m_window->close();
-				break;
-			case sf::Keyboard::Left:
-				m_player.setDirectionX(-1.0f);
-				break;
-			case sf::Keyboard::Right:
-				m_player.setDirectionX(1.0f);
-				break;
-			case sf::Keyboard::Up:
-				m_player.setDirectionY(-1.0f);
-				break;
-			case sf::Keyboard::Down:
-				m_player.setDirectionY(1.0f);
-				break;
-			case sf::Keyboard::Num1:
-				setLevel(0);
-				break;
-			case sf::Keyboard::Num2:
-				setLevel(1);
 				break;
 			case sf::Keyboard::Space:
 				playRandomAudio();
@@ -90,41 +81,87 @@ void GameplayScene::processEvents()
 void GameplayScene::update(sf::Time t_dT)
 {
 	// Do game update here
-	m_player.move(t_dT);
 	m_kid.move(t_dT);
+	m_player.update(t_dT);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		m_player.setDirectionY(-1.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		m_player.setDirectionY(1.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		m_player.setDirectionX(-1.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		m_player.setDirectionX(1.0f);
+	}
 
 	for (auto& obstacle : m_obstacles) {
 		m_player.collides(obstacle);
 	}
 
-	for (auto& wall : m_walls) {
-		m_player.collides(wall);
-	}
+	m_player.checkCollisions(m_obstacleColliders);
 
 	checkPlayerPosition();
 
+	bool checkWalls{ true };
+	for (auto& door : m_doors) 
+		if (door.getCollider().contains(m_player.getPosition())) checkWalls = false;
+
+	if (checkWalls) m_player.checkInBounds();
+
+	updateFog();
 }
 
 void GameplayScene::render()
 {
-	m_window->clear(sf::Color::Transparent);
+	if (m_fogEnabled) renderFog();
+
+	m_window->clear();
 
 	// Draw your stuff here
-	m_window->draw(m_player.getBody());
+	m_window->draw(m_player);
 	m_window->draw(m_kid.getBody());
 	//m_window->draw(m_kid.getBodyTarget());
 
+	m_window->draw(m_background);
 
 	for (auto& obstacle : m_obstacles) {
-		m_window->draw(obstacle.getBody());
+		m_window->draw(obstacle.getSprite());
 	}
 
-	for (auto& wall : m_walls) {
-		m_window->draw(wall.getBody());
-	}
+	for (auto& door : m_doors) m_window->draw(door.getSprite());
+
+	m_window->draw(m_player);
+	//m_window->draw(m_player.getCollider());
+
+	m_window->draw(m_fog);
 
 
 	m_window->display();
+}
+
+void GameplayScene::renderFog()
+{
+	m_fog.clear();
+	for (auto light : m_lightSources)
+		m_fog.draw(*light);
+
+	m_fog.display();
+}
+
+void GameplayScene::updateFog()
+{
+	for (auto light : m_lightSources)
+		light->castLight(m_edges.begin(), m_edges.end());
 }
 
 void GameplayScene::checkPlayerPosition()
@@ -178,23 +215,29 @@ void GameplayScene::setLevel(int t_level)
 		float xPos = (RESOLUTION.x / 16.f) * pos.x;
 		float yPos = (RESOLUTION.y / 16.f) * pos.y;
 
-		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
+		m_obstacles.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }));
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos}); // top left -> top right
+		m_edges.emplace_back(sf::Vector2f{xPos + offset.x * 2, yPos}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // top right -> bottom right
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos + offset.y * 2}, sf::Vector2f{xPos + offset.x * 2, yPos + offset.y * 2}); // bottom left -> bottom right
+		m_edges.emplace_back(sf::Vector2f{xPos, yPos}, sf::Vector2f{xPos, yPos + offset.y * 2}); // top left -> bottom left
 	}
 
-	m_walls.clear();
+	static std::set<int> brightRooms{ 0,1,4,5 };
+	m_fogEnabled = (!brightRooms.count(m_currentLevel));
 
-	for (int i = 0; i < 16; ++i)
-	{
-		for (int j = 0; j < 16; ++j)
-		{
-			if (i == 0 || i == 15 || j == 0 || j == 15) {
-				float xPos = (RESOLUTION.x / 16.f) * i;
-				float yPos = (RESOLUTION.y / 16.f) * j;
-
-				m_walls.push_back(Obstacle({ xPos + offset.x, yPos + offset.y }, 20.f));
-			}
-		}
+	m_obstacleColliders.clear();
+	for (auto& obstacle : m_obstacles) {
+		m_obstacleColliders.push_back(obstacle.getBody().getGlobalBounds());
 	}
+
+	m_doors.clear();
+	DoorState doorState = m_doorStates[m_currentLevel];
+
+	static float bufferPx{ 80.f };
+	if (doorState.north) m_doors.push_back(Door({ RESOLUTION.x / 2.f, bufferPx }));
+	if (doorState.south) m_doors.push_back(Door({ RESOLUTION.x / 2.f, RESOLUTION.y - bufferPx }));
+	if (doorState.east) m_doors.push_back(Door({ RESOLUTION.x - bufferPx, RESOLUTION.y / 2.f }));
+	if (doorState.west) m_doors.push_back(Door({ bufferPx, RESOLUTION.y / 2.f }));
 }
 //tbc
 void GameplayScene::loadAudio()

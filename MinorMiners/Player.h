@@ -9,26 +9,33 @@
 
 #include <Candle/RadialLight.hpp>
 #include "Toolbelt.h"
+#include "AnimatedSprite.h"
+#include "TextureHandler.h"
 
 class Player
 {
 public:
-	Player(int t_radius=15, sf::Vector2f t_position=sf::Vector2f(20.0f,20.0f));
+	Player(sf::Vector2f t_position=sf::Vector2f(540.0f,540.0f));
 
 	void move(sf::Time t_dT);
 	void update(sf::Time t_dT);
-	sf::CircleShape getBody() { return m_body; }
 	void setDirectionX(float t_x);
 	void setDirectionY(float t_y);
 	void setDirection(sf::Vector2f t_position);
 	bool collides(Obstacle& t_obstacle);
 
+	void checkCollisions(std::vector<sf::FloatRect> t_colliders);
+	void checkInBounds();
+
 	sf::Vector2f getPosition() { return m_position; }
 	void setPosition(sf::Vector2f t_position) { m_position = t_position; }
+
+
+	sf::CircleShape getCollider() { return m_collider; }
 	
 	candle::RadialLight& getLight() { return m_bloom; }
 
-	operator sf::Drawable const& () { return m_body; }
+	operator sf::Drawable const& () { return m_sprite; }
 
 	void addTool(Tool* t_tool) { m_tools.addTool(t_tool); }
 
@@ -37,7 +44,10 @@ public:
 	Torch* getTorch() { return m_tools.getTorch(); }
 
 private:
-	sf::CircleShape m_body;
+	void loadTexture();
+	sf::AnimatedSprite m_sprite;
+	sf::CircleShape m_collider;
+
 	sf::Vector2f m_position;
 	sf::Vector2f m_direction;
 	int m_radius;
