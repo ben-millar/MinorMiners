@@ -360,7 +360,6 @@ void GameplayScene::playRandomAudio()
 void GameplayScene::loadLevelItems(int t_level)
 {
 	for (auto pair : m_toolsToLevels) {
-		std::cout << "There's a tool in level: " << pair.second << std::endl;	
 		if (pair.second == t_level)
 			m_environmentTools.push_back(pair.first);
 	}
