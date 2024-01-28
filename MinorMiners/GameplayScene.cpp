@@ -7,6 +7,8 @@ GameplayScene::GameplayScene() :
 
 	m_levelData = LevelLoader::getInstance()->load("assets/level_data/levels.json");
 
+	setDoorStates();
+
 	setLevel(m_currentLevel);
 
 	m_fog.setAreaColor(sf::Color::Black);
@@ -139,6 +141,28 @@ void GameplayScene::render()
 
 
 	m_window->display();
+}
+
+void GameplayScene::setDoorStates()
+{
+	m_doorStates = { {
+		DoorState(false, false, true, false),	// 1
+		DoorState(false, true, false, true),	// 2
+		DoorState(false, false, true, false),	// 3
+		DoorState(false, true, false, true),	// 4
+		DoorState(false, false, true, false),	// 5
+		DoorState(true, false, true, true),		// 6
+		DoorState(false, false, true, true),	// 7
+		DoorState(true, true, false, true),		// 8
+		DoorState(false, true, true, false),	// 9
+		DoorState(false, true, false, true),	// 10
+		DoorState(false, true, true, false),	// 11
+		DoorState(true, false, false, true),	// 12
+		DoorState(true, true, false, false),	// 13
+		DoorState(true, false, true, false),	// 14
+		DoorState(true, false, true, true),		// 15
+		DoorState(false, false, false, true)	// 16
+		} };
 }
 
 void GameplayScene::renderFog()
